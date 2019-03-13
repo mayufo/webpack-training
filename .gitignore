@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+dist/
+dist1/
+dist2/
+dist3/
+dist4/
+dist5/
+dist6/
+dist7/
