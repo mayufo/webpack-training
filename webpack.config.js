@@ -1,5 +1,8 @@
 let path = require('path')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
+let CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'production',
@@ -7,8 +10,8 @@ module.exports = {
         home: './src/index.js'
     },
     output: {
-        filename: "[name].js",
-        path: path.resolve(__dirname, 'dist3')
+        filename: "[name]1.js",
+        path: path.resolve(process.cwd(), 'dist3')
     },
     devtool: 'source-map', // 增加映射文件调试源代码
     // 1. 源码映射 会标识错误的代码 打包后生成独立的文件 大而全 「source-map」
@@ -40,6 +43,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html',
             filename: 'index.html'
-        })
+        }),
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin([
+            {from: './src/doc', to: './public'}
+            ]),
+        new webpack.BannerPlugin('make 2019 by mayufo')
     ]
 }

@@ -1,3 +1,7 @@
+最好的webpack教程，看文档
+
+(webpack)[https://webpack.docschina.org/]
+
 ## 安装前先npm初始化
 ```
 npm init -y
@@ -232,7 +236,7 @@ module.exports = {
 
 ## es6 转 es5
 
-npm i babel-loader @babel/core  @babel/preset-env -D
+`npm i babel-loader @babel/core  @babel/preset-env -D`
 
 ```
 {
@@ -254,12 +258,12 @@ npm i babel-loader @babel/core  @babel/preset-env -D
 
 
 ## es 7的语法
-
+```
 // class
 npm i @babel/plugin-proposal-class-properties -D
 // 装饰器
 npm i @babel/plugin-proposal-decorators -D
-
+```
 配置如上
 
 ## 全局变量引入
@@ -503,9 +507,9 @@ module.exports = {
 
 ## 配置source-map
 
-yarn add @babel/core  @babel/preset-env babel-loader  webpack-dev-server -D
+`yarn add @babel/core  @babel/preset-env babel-loader  webpack-dev-server -D`
 
-devtool: 'source-map', // 增加映射文件调试源代码
+`devtool: 'source-map'` // 增加映射文件调试源代码
 
 1. 源码映射 会标识错误的代码 打包后生成独立的文件 大而全 「source-map」
 2. 不会陈胜单独的文件 但是可以显示行和列  「evl-source-map」
@@ -516,13 +520,57 @@ devtool: 'source-map', // 增加映射文件调试源代码
 ## watch 改完代表重新打包实体
 
 ```
-    watch: true,
-    watchOptions: {
-        poll: 1000,   // 每秒检查一次变动
-        aggregateTimeout: 300,  // 当第一个文件更改，会在重新构建前增加延迟
-        ignored: /node_modules/  // 对于某些系统，监听大量文件系统会导致大量的 CPU 或内存占用。这个选项可以排除一些巨大的文件夹，
-    },
+watch: true,
+watchOptions: {
+    poll: 1000,   // 每秒检查一次变动
+    aggregateTimeout: 300,  // 当第一个文件更改，会在重新构建前增加延迟
+    ignored: /node_modules/  // 对于某些系统，监听大量文件系统会导致大量的 CPU 或内存占用。这个选项可以排除一些巨大的文件夹，
+},
 ```
 
 
-## webapck的其他三个小插件
+## webpack的其他三个小插件
+
+1. cleanWebpackPlugin
+
+每次打包之前删掉dist目录
+`yarn add clean-webpack-plugin -D`
+
+[clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
+
+```
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+output: {
+    path: path.resolve(process.cwd(), 'dist'),
+},
+plugins: [
+    new CleanWebpackPlugin()
+]
+```
+2. copyWebpackPlugin
+一些静态资源也希望拷贝的dist中
+`yarn add copy-webpack-plugin -D`
+```
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+const config = {
+  plugins: [
+     new CopyWebpackPlugin([
+    {from: './src/doc', to: './public'}
+    ])
+  ]
+}
+```
+3. bannerPlugin  内置模块
+
+版权声明
+
+```
+const webpack = require('webpack');
+
+new webpack.BannerPlugin('hello world')
+
+new webpack.BannerPlugin({ banner: 'hello world'})
+
+```
+
