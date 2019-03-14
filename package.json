@@ -14,6 +14,7 @@
     "@babel/preset-env": "^7.3.4",
     "autoprefixer": "^9.4.10",
     "babel-loader": "^8.0.5",
+    "bootstrap": "^4.3.1",
     "clean-webpack-plugin": "^2.0.0",
     "copy-webpack-plugin": "^5.0.1",
     "css-loader": "^2.1.1",
@@ -25,12 +26,14 @@
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-custom-properties": "^8.0.9",
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-middleware": "^3.6.1"
   },
   "dependencies": {
     "expose-loader": "^0.7.5",

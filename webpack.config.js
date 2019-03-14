@@ -1,8 +1,8 @@
 let path = require('path')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
-let CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const webpack = require('webpack')
+// let CleanWebpackPlugin = require('clean-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const webpack = require('webpack')
 
 module.exports = {
     mode: 'production',
@@ -10,7 +10,7 @@ module.exports = {
         home: './src/index.js'
     },
     output: {
-        filename: "[name]1.js",
+        filename: "[name].js",
         path: path.resolve(process.cwd(), 'dist3')
     },
     devtool: 'source-map', // 增加映射文件调试源代码
@@ -24,6 +24,32 @@ module.exports = {
         aggregateTimeout: 300,  // 当第一个文件更改，会在重新构建前增加延迟
         ignored: /node_modules/  // 对于某些系统，监听大量文件系统会导致大量的 CPU 或内存占用。这个选项可以排除一些巨大的文件夹，
     },
+    resolve: {
+        // 在当前目录查找
+        modules: [path.resolve('node_modules')],
+        // alias: {
+        //     'bootstrapCss': 'bootstrap/dist/css/bootstrap.css'
+        // },
+        mainFields: ['style', 'main'],   // 先用bootstrap中在package中的style,没有在用main
+        // mainFiles: []  // 入口文件的名字 默认index
+        extensions: ['.js', '.css', '.json']  // 当没有拓展命的时候，先默认js、次之css、再次之json
+    },
+    devServer: {
+        // proxy: {
+        //     '/api': 'http://localhost:3000' // 配置一个代理
+        // }
+        //   proxy: {   // 重写方式 把请求代理到express 上
+        //       '/api': {
+        //           target: 'http://localhost:3000',
+        //           pathRewrite: {'^/api': ''}
+        //       }
+        //   }
+        before: function (app) {  // 勾子
+            app.get('/api/user', (req, res) => {
+                res.json({name: 'mayufo - before'})
+            })
+        }
+    },
     module: {
         rules: [
             {
@@ -36,18 +62,29 @@ module.exports = {
                         ]
                     }
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: (loader) => [
+                            require("postcss-custom-properties")
+                        ]
+                    }
+                }]
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './index.html',
+            template: './src/index.html',
             filename: 'index.html'
         }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {from: './src/doc', to: './public'}
-            ]),
-        new webpack.BannerPlugin('make 2019 by mayufo')
+        // new CleanWebpackPlugin(),
+        // new CopyWebpackPlugin([
+        //     {from: './src/doc', to: './public'}
+        //     ]),
+        // new webpack.BannerPlugin('make 2019 by mayufo')
     ]
 }
