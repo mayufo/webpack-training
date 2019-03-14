@@ -29,10 +29,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html',
+            hash: true,   // 防止缓存
             minify: {
                 removeAttributeQuotes: true,   // 删除html中的双引号
                 // collapseWhitespace: true, // 折叠为一行
-                hash: true   // 防止缓存
+
             }
         }),
         // 压缩css
