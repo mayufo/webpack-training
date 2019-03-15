@@ -4,14 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "dev": "webpack-dev-server"
+    "build": "webpack-dev-server  --config webpack.prod.js",
+    "dev": "webpack-dev-server --config webpack.dev.js"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-proposal-decorators": "^7.3.0",
     "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.4.10",
     "babel-loader": "^8.0.5",
     "bootstrap": "^4.3.1",
@@ -33,7 +34,8 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-middleware": "^3.6.1"
+    "webpack-dev-middleware": "^3.6.1",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "expose-loader": "^0.7.5",

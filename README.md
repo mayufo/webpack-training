@@ -546,9 +546,12 @@ plugins: [
     new CleanWebpackPlugin()
 ]
 ```
+
 2. copyWebpackPlugin
 一些静态资源也希望拷贝的dist中
+
 `yarn add copy-webpack-plugin -D`
+
 ```
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
@@ -560,6 +563,7 @@ const config = {
   ]
 }
 ```
+
 3. bannerPlugin  内置模块
 
 版权声明
@@ -580,6 +584,7 @@ new webpack.BannerPlugin({ banner: 'hello world'})
 [express](https://expressjs.com/zh-cn/starter/hello-world.html)
 
 `server.js`
+
 ```
 // express
 
@@ -587,11 +592,9 @@ let express = require('express')
 
 let app = express();
 
-
 app.get('/api/user', (res) => {
     res.json({name: 'mayufo'})
 })
-
 
 app.listen(3000)   // 服务端口在3000
 ```
@@ -599,7 +602,6 @@ app.listen(3000)   // 服务端口在3000
 写完后记得node server.js
 
 访问 `http://localhost:3000/api/user` 可见内容
-
 
 
 `index.js`
@@ -621,6 +623,7 @@ xhr.send();
 
 
 `webpack.config.js`
+
 ```
 devServer: {
   proxy: {
@@ -643,12 +646,12 @@ app.get('/user', (res) => {
     res.json({name: 'mayufo'})
 })
 
-
 app.listen(3000)   // 服务端口在3000
 ```
 
 
 请求已api开头, 转发的时候再删掉api
+
 ```
 devServer: {
     proxy: {
@@ -795,3 +798,208 @@ resolve: {
     extensions: ['.js', '.css', '.json']  // 当没有拓展命的时候，先默认js、次之css、再次之json
 },
 ```
+
+## 定义环境变量
+
+`DefinePlugin` 允许创建一个在编译时可以配置的全局常量。这可能会对开发模式和生产模式的构建允许不同的行为非常有用。
+
+```
+let url = ''
+if (DEV === 'dev') {
+    // 开发环境
+    url = 'http://localhost:3000'
+} else {
+    // 生成环境
+    url = 'http://www.mayufo.cn'
+}
+```
+
+`webpack.config.js`
+
+```
+new webpack.DefinePlugin({
+    // DEV: '"production"',
+    DEV: JSON.stringify('production'),
+    FLAG: 'true',   // 布尔
+    EXPRESSION: '1 + 1'   // 字符串 如果希望是字符串 JSON.stringify('1 + 1')
+})
+```
+
+## 区分两个不同的环境
+
+分别配置不同的环境
+
+webpack.base4.js   基础配置
+webpack.dev4.js    开发环境
+webpack.prod4.js   生产环境
+
+`yarn add webpack-merge -D`
+
+
+npx run build -- config webpack.dev4.js
+npx run build -- config webpack.build.js
+
+[官方文档](https://webpack.docschina.org/guides/production/)
+
+
+`webpack.base4.js`
+
+```
+let path = require('path')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+let CleanWebpackPlugin = require('clean-webpack-plugin')
+
+module.exports = {
+    entry: {
+        home: './src/index.js'
+    },
+    output: {
+        filename: "[name].js",
+        path: path.resolve(process.cwd(), 'dist3')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            '@babel/preset-env'
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: (loader) => [
+                            require("postcss-custom-properties")
+                        ]
+                    }
+                }]
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        })
+    ]
+}
+
+```
+
+`webpack.dev4.js`
+
+```
+let merge = require('webpack-merge')
+let base = require('./webpack.base4.js')
+
+
+module.exports = merge(base, {
+    mode: 'development',
+    devServer: {},
+    devtool: 'source-map'
+})
+
+```
+
+`webpack.prod4.js`
+
+```
+let merge = require('webpack-merge')
+let base = require('./webpack.base4.js')
+
+
+module.exports = merge(base, {
+    mode: 'production'
+})
+
+```
+
+`package.json`
+
+```
+"scripts": {
+    "build": "webpack-dev-server  --config webpack.prod4.js",
+    "dev": "webpack-dev-server --config webpack.dev4.js"
+},
+```
+
+
+## webpack 优化
+
+`yarn add webpack webpack-cli html-webpack-plugin @babel/core babel-loader @babel/preset-env @babel/preset-react -D`
+
+`webpack.config.js`
+
+```
+let path = require('path')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+      rules: [
+          {
+              test: /\.js$/,
+              use: {
+                  loader: 'babel-loader',
+                  options: {
+                      presets: [
+                          '@babel/preset-env',
+                          '@babel/preset-react'
+                      ]
+                  }
+              }
+          },
+      ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+    ]
+}
+
+```
+##  当某些包是独立的个体没有依赖
+
+以jquery为例，`yarn add jquery -D`,它是一个独立的包没有依赖，可以在webpack配置中，配置它不再查找依赖
+
+```
+module: {
+    noParse: /jquery/, // 不用解析某些包的依赖
+    rules: [
+      {
+          test: /\.js$/,
+          use: {
+              loader: 'babel-loader',
+              options: {
+                  presets: [
+                      '@babel/preset-env',
+                      '@babel/preset-react'
+                  ]
+              }
+          }
+      },
+  ]
+},
+```
+运行`npx webpack`
+
+从2057ms  -> 1946 ms
+
+
+
