@@ -1,6 +1,8 @@
 最好的webpack教程，看文档
 
 [webpack](https://webpack.docschina.org/)
+
+
 ## 安装前先npm初始化
 ```
 npm init -y
@@ -1021,7 +1023,7 @@ rules: [
   }
 ```
 
-## 优化：删除依赖中不必要的语言包
+## 优化：忽略依赖中不必要的语言包
 `yarn add moment webpack-dev-server -D`
 
 忽略掉moment的其他语言包
@@ -1359,4 +1361,89 @@ optimization: {
         }
     },
 },
+```
+
+
+## 懒加载(延迟加载)
+
+`yarn add @babel/plugin-syntax-dynamic-import  -D`
+
+`source.js`
+
+```
+export default 'mayufo'
+```
+
+`index.js`
+
+```
+let button = document.createElement('button')
+
+button.innerHTML = 'may'
+button.addEventListener('click', function () {
+    console.log('click')
+    // es6草案中的语法，jsonp实现动态加载文件
+    import('./source.js').then(data => {
+        console.log(data.default);
+    })
+})
+
+
+document.body.appendChild(button)
+
+```
+
+`webpack.config.js`
+
+```
+{
+    test: /\.js$/,
+    exclude: '/node_modules/',
+    include: path.resolve('src'),
+    use: [{
+        loader: 'babel-loader',
+        options: {
+            presets: [
+                '@babel/preset-env',
+                '@babel/preset-react'
+            ],
+            plugins: [
+                '@babel/plugin-syntax-dynamic-import'
+            ]
+        }
+    }]
+}
+```
+
+## 热更新(当页面改变只更新改变的部分，不重新打包)
+
+`webpack.config.js`
+
+```
+plugins: [
+    new HtmlWebpackPlugin({
+        template: './src/index.html',
+        filename: 'index.html'
+    }),
+    new webpack.NameModulesPlugin(), // 打印更新的模块路径
+    new webpack.HotModuleReplacementPlugin()
+]
+```
+
+`index.js`
+
+```
+
+import str from './source'
+
+console.log(str);
+
+if (module.hot) {
+    module.hot.accept('./source', () => {
+        console.log('文件更新了');
+        require('./source')
+        console.log(str);
+    })
+}
+
 ```
