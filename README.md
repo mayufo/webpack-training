@@ -974,7 +974,7 @@ module.exports = {
 }
 
 ```
-##  当某些包是独立的个体没有依赖
+##  优化：当某些包是独立的个体没有依赖
 
 以jquery为例，`yarn add jquery -D`,它是一个独立的包没有依赖，可以在webpack配置中，配置它不再查找依赖
 
@@ -1001,5 +1001,151 @@ module: {
 
 从2057ms  -> 1946 ms
 
+## 优化：规则匹配设置范围
+
+```a
+rules: [
+  {
+      test: /\.js$/,
+      exclude: '/node_modules/',   // 排除
+      include: path.resolve('src'),  // 在这个范围内
+      use: {
+          loader: 'babel-loader',
+          options: {
+              presets: [
+                  '@babel/preset-env',
+                  '@babel/preset-react'
+              ]
+          }
+      }
+  }
+```
+
+## 优化：删除依赖中不必要的语言包
+`yarn add moment webpack-dev-server -D`
+
+忽略掉moment的其他语言包
+
+```
+let webpack = require('webpack')
+
+plugins: [
+    new webpack.IgnorePlugin(/\.\/locale/, /moment/)
+]
+
+```
+
+`index.js`
+
+```
+import moment from 'moment'
+
+let r = moment().endOf('day').fromNow()  // 距离现在多少天
+console.log(r);
+```
 
 
+从 1.2MB 到  800kb
+
+## 动态链接库
+
+`yarn add react react-dom`
+
+正常使用
+
+`webpack.config.js`
+
+```
+{
+  test: /\.js$/,
+  exclude: '/node_modules/',
+  include: path.resolve('src'),
+  use: {
+      loader: 'babel-loader',
+      options: {
+          presets: [
+              '@babel/preset-env',
+              '@babel/preset-react'
+          ]
+      }
+  }
+}
+```
+
+`index.js`
+```
+import React from 'react'
+
+import {render} from 'react-dom'
+
+
+render(<h1>111111</h1>, window.root)
+```
+
+`index.html`
+
+```
+<div id="root"></div>
+```
+
+独立的将react react-dom 打包好, 打包好再引用，从而减少webpack每次都要打包react 
+
+创建`webpack.config.react.js`
+
+
+```
+let path = require('path')
+let webpack = require('webpack')
+module.exports = {
+    mode: 'development',
+    entry: {
+        // test: './src/test.js'
+        react: ['react', 'react-dom']
+    },
+    output: {
+        filename: '_dll_[name].js',  // 产生的文件名
+        path: path.resolve(__dirname, 'dist'),
+        library: '_dll_[name]',     // 给输出的结果加个名字
+        // libraryTarget: 'var'   // 配置如何暴露 library
+        // commonjs 结果放在export属性上， umd统一资源模块, 默认是var
+    },
+    plugins: [
+       new webpack.DllPlugin({
+           name: '_dll_[name]',   // name === library
+           path: path.resolve(__dirname, 'dist', 'manifest.json')  // manifest.json 定义了各个模块的路径
+       })
+    ]
+}
+```
+
+[libraryTarget](https://webpack.docschina.org/configuration/output/#%E6%9A%B4%E9%9C%B2%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F)
+
+`manifest.json`就是一个任务清单or动态链接库，在这个清单里面查找react
+
+`npx webpack --config webpack.config.react.js`
+
+在`index.html`增加引用
+
+```
+<body>
+<div id="root"></div>
+<script src="/_dll_react.js"></script>
+</body>
+```
+
+在webpack.config.js 中配置，现在动态链接库`manifest.json`中查找,如果没有再打包react
+```
+plugins: [
+    new webpack.DllReferencePlugin({
+        manifest: path.resolve(__dirname, 'dist', 'manifest.json')
+    })
+]
+
+```
+`npm run build`
+
+打包后的`bunle.js`文件变小
+
+`npm run dev`
+
+可以理解为先把react打包，后面每次都直接使用react打包后的结果
