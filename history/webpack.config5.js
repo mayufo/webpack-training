@@ -1,13 +1,14 @@
 let path = require('path')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 let webpack = require('webpack')
+let Happypack = require('happypack')
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist4')
+        path: path.resolve(__dirname, 'dist')
     },
     devServer: {
         port: 3000,
@@ -21,28 +22,38 @@ module.exports = {
                 test: /\.js$/,
                 exclude: '/node_modules/',
                 include: path.resolve('src'),
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-react'
-                        ]
-                    }
-                }]
+                use: 'happypack/loader?id=js'
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: 'happypack/loader?id=css'
             }
         ],
     },
     plugins: [
+        new Happypack({
+            id: 'js',
+            user: [{
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/preset-env',
+                        '@babel/preset-react'
+                    ]
+                }
+            }]
+        }),
+        new Happypack({
+            id: 'css',
+            user: ['style-loader', 'css-loader']
+        }),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
         }),
         new webpack.IgnorePlugin(/\.\/locale/, /moment/),
-
+        new webpack.DllReferencePlugin({
+            manifest: path.resolve(__dirname, 'dist', 'manifest.json')
+        })
     ]
 }
