@@ -1,7 +1,7 @@
 import './a'
 import './b'
 
-console.log('index.js');
+console.log('other.js');
 
 
 import $ from 'jquery'

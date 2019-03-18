@@ -4,31 +4,10 @@ let webpack = require('webpack')
 
 module.exports = {
     mode: 'production',
-    entry:  {
-      index: './src/index',
-      other: './src/other',
-    },
+    entry: './src/index.js',
     output: {
-        filename: '[name].js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist4')
-    },
-    optimization: {
-        splitChunks: {  // 分割代码块，针对多入口
-            cacheGroups: {   // 缓存组
-                common: {   // 公共模块
-                    minSize: 0,  // 大于多少抽离
-                    minChunks: 2,  // 使用多少次以上抽离抽离
-                    chunks: 'initial'  // 从什么地方开始,刚开始
-                },
-                vendor: {
-                    priority: 1, // 增加权重
-                    test: /node_modules/,
-                    minSize: 0,  // 大于多少抽离
-                    minChunks: 2,  // 使用多少次以上抽离抽离
-                    chunks: 'initial'  // 从什么地方开始,刚开始
-                }
-            }
-        },
     },
     devServer: {
         port: 3000,

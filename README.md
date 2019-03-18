@@ -1142,6 +1142,9 @@ plugins: [
 ]
 
 ```
+
+[DLLPlugin 和 DLLReferencePlugin](https://webpack.docschina.org/plugins/dll-plugin/#src/components/Sidebar/Sidebar.jsx)
+
 `npm run build`
 
 打包后的`bunle.js`文件变小
@@ -1204,6 +1207,21 @@ css启用多线程
 
 ## webpack 自带的优化
 
+`test.js`
+
+```
+let sum = (a, b) => {
+    return a + b + 'sum'
+}
+
+let minus = (a, b) => {
+    return a - b + 'minus';
+}
+
+export default {
+ sum, minus
+}
+```
 
 1. 使用import 
 
@@ -1249,3 +1267,96 @@ console.log(r.default.sum(1,2));console.log(6,"---------")
 ```
 
 在webpack中可以省略一些可以简化的代码
+
+## 抽取公共代码
+
+1. 抽离自有模块
+
+`webpack.config.js`
+
+```
+optimization: {
+    splitChunks: {  // 分割代码块，针对多入口
+        cacheGroups: {   // 缓存组
+            common: {   // 公共模块
+                minSize: 0,  // 大于多少抽离
+                minChunks: 2,  // 使用多少次以上抽离抽离
+                chunks: 'initial'  // 从什么地方开始,刚开始
+            }
+        }
+    }
+},
+```
+[SplitChunksPlugin](https://webpack.docschina.org/plugins/split-chunks-plugin/)
+
+
+分别有a.js和b.js, index.js和other.js分别引入a和b两个js
+
+`index.js`
+
+```
+import './a'
+import './b'
+
+console.log('index.js');
+```
+
+`other.js`
+
+```
+import './a'
+import './b'
+
+console.log('other.js');
+```
+
+`webpack.config.js`
+
+```
+optimization: {
+    splitChunks: {  // 分割代码块，针对多入口
+        cacheGroups: {   // 缓存组
+            common: {   // 公共模块
+                minSize: 0,  // 大于多少抽离
+                minChunks: 2,  // 使用多少次以上抽离抽离
+                chunks: 'initial'  // 从什么地方开始,刚开始
+            }
+        }
+    },
+},
+```
+
+2. 抽离第三方模块
+
+比如jquery
+
+`index.js` 和 `other.js`分别引入
+
+```
+import $ from 'jquery'
+
+console.log($);
+```
+
+`webpack.config.js`
+
+```
+optimization: {
+    splitChunks: {  // 分割代码块，针对多入口
+        cacheGroups: {   // 缓存组
+            common: {   // 公共模块
+                minSize: 0,  // 大于多少抽离
+                minChunks: 2,  // 使用多少次以上抽离抽离
+                chunks: 'initial'  // 从什么地方开始,刚开始
+            },
+            vendor: {
+                priority: 1, // 增加权重,先抽离第三方
+                test: /node_modules/,
+                minSize: 0,  // 大于多少抽离
+                minChunks: 2,  // 使用多少次以上抽离抽离
+                chunks: 'initial'  // 从什么地方开始,刚开始
+            }
+        }
+    },
+},
+```
