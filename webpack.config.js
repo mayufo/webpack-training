@@ -1,6 +1,7 @@
 let path = require('path')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 let webpack = require('webpack')
+let Happypack = require('happypack')
 
 module.exports = {
     mode: 'development',
@@ -17,23 +18,35 @@ module.exports = {
     module: {
         noParse: /jquery/, // 不用解析某些包的依赖
         rules: [
-          {
-              test: /\.js$/,
-              exclude: '/node_modules/',
-              include: path.resolve('src'),
-              use: {
-                  loader: 'babel-loader',
-                  options: {
-                      presets: [
-                          '@babel/preset-env',
-                          '@babel/preset-react'
-                      ]
-                  }
-              }
-          },
-      ]
+            {
+                test: /\.js$/,
+                exclude: '/node_modules/',
+                include: path.resolve('src'),
+                use: 'happypack/loader?id=js'
+            },
+            {
+                test: /\.css$/,
+                use: 'happypack/loader?id=css'
+            }
+        ],
     },
     plugins: [
+        new Happypack({
+            id: 'js',
+            user: [{
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/preset-env',
+                        '@babel/preset-react'
+                    ]
+                }
+            }]
+        }),
+        new Happypack({
+            id: 'css',
+            user: ['style-loader', 'css-loader']
+        }),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
