@@ -1447,3 +1447,77 @@ if (module.hot) {
 }
 
 ```
+
+## tapable介绍
+
+[tapable](https://juejin.im/post/5abf33f16fb9a028e46ec352)
+
+`webpack`本质上是一种事件流的机制，它的工作流程就是将各个插件串联起来，而实现这一切的核心就是`Tapable`，`webpack`中最核心的负责编译的`Compiler`和负责创建`bundles`的`Compilation`都是`Tapable`的实例。
+
+
+`yarn add tabable`
+
+`1.start.js`
+
+```
+let {SyncHook} = require('tapable')   // 结构同步勾子
+
+
+class Lesson {
+    constructor () {
+        this.hooks = {
+            // 订阅勾子
+            arch: new SyncHook(['name']),
+
+        }
+    }
+    start () {
+        this.hooks.arch.call('may')
+    }
+    tap () {   //  注册监听函数
+        this.hooks.arch.tap('node', function (name) {
+            console.log('node', name)
+        })
+        this.hooks.arch.tap('react', function (name) {
+            console.log('react', name)
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start() // 启动勾子
+
+```
+
+`2.case.js`
+
+```
+class SyncHook {  // 勾子是同步的
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+    tap (name, task) {
+        this.tasks.push(task)
+    }
+    call (...args) {
+        this.tasks.forEach((task) => task(...args))
+    }
+}
+
+let hook = new SyncHook(['name'])
+
+hook.tap('react', function (name) {
+    console.log('react', name);
+})
+
+
+hook.tap('node', function (name) {
+    console.log('node', name);
+})
+
+
+hook.call('jw')
+```

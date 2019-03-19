@@ -44,6 +44,7 @@
     "happypack": "^5.0.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "tapable": "^1.1.1",
     "webpack-dev-server": "^3.2.1"
   }
 }

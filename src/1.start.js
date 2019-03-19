@@ -1,4 +1,4 @@
-let {SyncHook} = require('tapable')   // 结构同步勾子
+let {SyncHook} = require('tapable')   // 解构同步勾子
 
 
 class Lesson {
@@ -27,4 +27,5 @@ let l = new Lesson()
 
 l.tap();  //注册两个函数
 l.start() // 启动勾子
+
 
