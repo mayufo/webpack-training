@@ -1,9 +1,59 @@
 最好的webpack教程，看文档
 
-[webpack](https://webpack.docschina.org/)
+[webpack文档](https://webpack.docschina.org/)
 
 
-[文件对应的课程](https://github.com/mayufo/webpack-training/blob/master/content.md)
+[文件对应的目录](https://github.com/mayufo/webpack-training/blob/master/content.md)
+
+
+
+- [安装前先npm初始化](#%E5%AE%89%E8%A3%85%E5%89%8D%E5%85%88npm%E5%88%9D%E5%A7%8B%E5%8C%96)
+- [本地服务](#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1)
+- [复制html](#%E5%A4%8D%E5%88%B6html)
+- [处理css](#%E5%A4%84%E7%90%86css)
+- [处理less](#%E5%A4%84%E7%90%86less)
+- [抽离css文件，通过link引入](#%E6%8A%BD%E7%A6%BBcss%E6%96%87%E4%BB%B6%E9%80%9A%E8%BF%87link%E5%BC%95%E5%85%A5)
+- [压缩css和js](#%E5%8E%8B%E7%BC%A9css%E5%92%8Cjs)
+- [给css加上兼容浏览器的前缀](#%E7%BB%99css%E5%8A%A0%E4%B8%8A%E5%85%BC%E5%AE%B9%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%89%8D%E7%BC%80)
+- [es6 转 es5](#es6-%E8%BD%AC-es5)
+- [es 7的语法](#es-7%E7%9A%84%E8%AF%AD%E6%B3%95)
+- [全局变量引入](#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%BC%95%E5%85%A5)
+- [webpack图片打包](#webpack%E5%9B%BE%E7%89%87%E6%89%93%E5%8C%85)
+- [当图片小于多少，用base64](#%E5%BD%93%E5%9B%BE%E7%89%87%E5%B0%8F%E4%BA%8E%E5%A4%9A%E5%B0%91%E7%94%A8base64)
+- [打包文件分类](#%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E5%88%86%E7%B1%BB)
+- [希望输出的时候，给这些css\img加上前缀，传到服务器也能访问](#%E5%B8%8C%E6%9C%9B%E8%BE%93%E5%87%BA%E7%9A%84%E6%97%B6%E5%80%99%E7%BB%99%E8%BF%99%4%B8%8A%E5%89%8D%E7%BC%80%E4%BC%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%83%BD%E8%AE%BF%E9%97%AE)
+- [如果只希望处理图片](#%E5%A6%82%E6%9E%9C%E5%8F%AA%E5%B8%8C%E6%9C%9B%E5%A4%84%E7%90%86%E5%9B%BE%E7%89%87)
+- [打包多页应用](#%E6%89%93%E5%8C%85%E5%A4%9A%E9%A1%B5%E5%BA%94%E7%94%A8)
+- [配置source-map](#%E9%85%8D%E7%BD%AEsource-map)
+- [watch 改完代表重新打包实体](#watch-%E6%94%B9%E5%AE%8C%E4%BB%A3%E8%A1%A8%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E5%AE%9E%E4%BD%93)
+- [webpack的其他三个小插件](#webpack%E7%9A%84%E5%85%B6%E4%BB%96%E4%B8%89%E4%B8%AA%E5%B0%8F%E6%8F%92%E4%BB%B6)
+- [webpack 跨域](#webpack-%E8%B7%A8%E5%9F%9F)
+- [如果后端给的请求没有API 「跨域」](#%E5%A6%82%E6%9E%9C%E5%90%8E%E7%AB%AF%E7%BB%99%E7%9A%84%E8%AF%B7%E6%B1%82%E6%B2%A1%E6%9C%89api-%E8%B7%A8%E5%9F%9F)
+- [前端只想单纯mock数据 「跨域」](#%E5%89%8D%E7%AB%AF%E5%8F%AA%E6%83%B3%E5%8D%95%E7%BA%AFmock%E6%95%B0%E6%8D%AE-%E8%B7%A8%E5%9F%9F)
+- [有服务端，不用代理, 服务端启动webpack 「跨域」](#%E6%9C%89%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%B8%8D%E7%94%A8%E4%BB%A3%E7%90%86-%E6%9C%8D%E5%8A%A1%E5%8A%A8webpack-%E8%B7%A8%E5%9F%9F)
+- [webpack解析resolve](#webpack%E8%A7%A3%E6%9E%90resolve)
+- [但是每次引入都很长，如何优雅引入](#%E4%BD%86%E6%98%AF%E6%AF%8F%E6%AC%A1%E5%BC%95%E5%85%A5%E9%83%BD%E5%BE%88%E9%95%BF%E5%A6%82%E4%BD%95%E4%BC%9%95%E5%85%A5)
+- [省略扩展名](#%E7%9C%81%E7%95%A5%E6%89%A9%E5%B1%95%E5%90%8D)
+- [定义环境变量](#%E5%AE%9A%E4%B9%89%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
+- [区分两个不同的环境](#%E5%8C%BA%E5%88%86%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84%E7%8E%AF%E5%A2%83)
+- [webpack 优化](#webpack-%E4%BC%98%E5%8C%96)
+- [优化：当某些包是独立的个体没有依赖](#%E4%BC%98%E5%8C%96%E5%BD%93%E6%9F%90%E4%BA%9B%E5%8C%85%E6%98%AF%E7%8B%AC%E7%AB%8B%E7%9A%84%E4%B8%AA%E4%BD%93%E6%B2%A1%E6%9C%89%E4%BE%9D%E8%B5%96)
+- [优化：规则匹配设置范围](#%E4%BC%98%E5%8C%96%E8%A7%84%E5%88%99%E5%8C%B9%E9%85%8D%E8%AE%BE%E7%BD%AE%E8%8C%83%E5%9B%B4)
+- [优化：忽略依赖中不必要的语言包](#%E4%BC%98%E5%8C%96%E5%BF%BD%E7%95%A5%E4%BE%9D%E8%B5%96%E4%B8%AD%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E8%AF%AD%85)
+- [动态链接库](#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93)
+- [多线程打包happypack](#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%89%93%E5%8C%85happypack)
+- [webpack 自带的优化](#webpack-%E8%87%AA%E5%B8%A6%E7%9A%84%E4%BC%98%E5%8C%96)
+- [抽取公共代码](#%E6%8A%BD%E5%8F%96%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81)
+- [懒加载(延迟加载)](#%E6%87%92%E5%8A%A0%E8%BD%BD%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD)
+- [热更新(当页面改变只更新改变的部分，不重新打包)](#%E7%83%AD%E6%9B%B4%E6%96%B0%E5%BD%93%E9%A1%B5%E9%9D%A2%E6%94%B9%E5%8F%98%E5%8F%AA%E6%9B%B4%E6%96%B0%E6%94%B9%E5%8F%98%E7%9A%84%E9%83%A8%E5%88%86%E4%B8%8D%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85)
+- [tapable介绍 - SyncHook](#tapable%E4%BB%8B%E7%BB%8D---synchook)
+- [tapable介绍 - SyncBailHook](#tapable%E4%BB%8B%E7%BB%8D---syncbailhook)
+- [tapable介绍 - SyncWaterfallHook](#tapable%E4%BB%8B%E7%BB%8D---syncwaterfallhook)
+- [tapable介绍 - SyncLoopHook](#tapable%E4%BB%8B%E7%BB%8D---syncloophook)
+- [`AsyncParallelHook` 与 `AsyncParallelBailHook`](#asyncparallelhook-%E4%B8%8E-asyncparallelbailhook)
+    + [AsyncParallelHook](#asyncparallelhook)
+    + [AsyncParallelBailHook](#asyncparallelbailhook)
+- [异步串行](#%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C)
 
 ## 安装前先npm初始化
 ```
@@ -1973,3 +2023,6 @@ hook.promise('jw').then(function () {
 只要监听函数的返回值不为 `null`，就会忽略后面的监听函数执行，直接跳跃到`callAsync`等触发函数绑定的回调函数，然后执行这个被绑定的回调函数。
 
 使用和原理与`SyncBailHook`相似
+
+
+## 异步串行
