@@ -1448,12 +1448,13 @@ if (module.hot) {
 
 ```
 
-## tapable介绍
+## tapable介绍 - SyncHook
 
 [tapable](https://juejin.im/post/5abf33f16fb9a028e46ec352)
 
 `webpack`本质上是一种事件流的机制，它的工作流程就是将各个插件串联起来，而实现这一切的核心就是`Tapable`，`webpack`中最核心的负责编译的`Compiler`和负责创建`bundles`的`Compilation`都是`Tapable`的实例。
 
+`SyncHook` 不关心监听函数的返回值
 
 `yarn add tabable`
 
@@ -1492,7 +1493,7 @@ l.start() // 启动勾子
 
 ```
 
-`2.case.js`
+`1.case.js`
 
 ```
 class SyncHook {  // 勾子是同步的
@@ -1520,4 +1521,252 @@ hook.tap('node', function (name) {
 
 
 hook.call('jw')
+```
+
+
+## tapable介绍 - SyncBailHook
+
+`SyncBailHook`为勾子加了个保险，当`return`返回不是`undefine`就会停止
+
+`2.start.js`
+```
+let {SyncBailHook} = require('tapable')   // 解构同步勾子
+
+
+class Lesson {
+    constructor () {
+        this.hooks = {
+            // 订阅勾子
+            arch: new SyncBailHook(['name']),
+
+        }
+    }
+    start () {
+        // 发布
+        this.hooks.arch.call('may')
+    }
+    tap () {   //  注册监听函数,订阅
+        this.hooks.arch.tap('node', function (name) {
+            console.log('node', name)
+            return '停止学习'  // 会停止
+            // return undefined
+        })
+        this.hooks.arch.tap('react', function (name) {
+            console.log('react', name)
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start() // 启动勾子
+
+```
+
+`2.case.js`
+
+```
+class SyncBailHook {  // 勾子是同步的
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+    tap (name, task) {
+        this.tasks.push(task)
+    }
+    call (...args) {
+        let ret;   // 当前函数的返回值
+        let index = 0; // 当前要执行的第一个
+        do {
+            ret = this.tasks[index](...args)
+        } while (ret === undefined  && index < this.tasks.length)
+    }
+}
+
+let hook = new SyncBailHook(['name'])
+
+hook.tap('react', function (name) {
+    console.log('react', name);
+    return '停止学习'
+    // return undefined
+})
+
+
+hook.tap('node', function (name) {
+    console.log('node', name);
+})
+
+
+hook.call('jw')
+
+```
+
+## tapable介绍 - SyncWaterfallHook
+
+`SyncWaterfallHook`上一个监听函数的返回值可以传给下一个监听函数
+ 
+`2.start.js`
+ 
+```
+let {SyncWaterfallHook} = require('tapable')   // 解构同步勾子
+
+// waterfall 瀑布
+
+class Lesson {
+    constructor () {
+        this.hooks = {
+            // 订阅勾子
+            arch: new SyncWaterfallHook(['name']),
+
+        }
+    }
+    start () {
+        // 发布
+        this.hooks.arch.call('may')
+    }
+    tap () {   //  注册监听函数,订阅
+        this.hooks.arch.tap('node', function (name) {
+            console.log('node', name)
+            return '学的不错'
+        })
+        this.hooks.arch.tap('react', function (name) {
+            console.log('react', name)
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start() // 启动勾子
+
+```
+
+`3.case.js`
+
+```
+class SyncWaterfallHook {  // 勾子是同步的 - 瀑布
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+    tap (name, task) {
+        this.tasks.push(task)
+    }
+    call (...args) {
+        let [first, ...others] = this.tasks;
+        let ret = first(...args)
+        others.reduce((a, b) => {
+            return b(a);
+        }, ret);
+
+    }
+}
+
+let hook = new SyncWaterfallHook(['name'])
+
+hook.tap('react', function (name) {
+    console.log('react', name);
+    return 'react Ok'
+    // return undefined
+})
+
+
+hook.tap('node', function (name) {
+    console.log('node', name);
+    return 'node Ok'
+})
+
+hook.tap('webpack', function (data) {
+    console.log('webpack', data);
+})
+
+
+
+hook.call('jw')
+
+
+```
+
+## tapable介绍 - SyncLoopHook
+
+`SyncLoopHook`当监听函数被触发的时候，如果该监听函数返回`true`时则这个监听函数会反复执行，如果返回 `undefined` 则表示退出循环
+
+`4.case.js`
+
+```
+let {SyncLoopHook} = require('tapable')   // 解构同步勾子
+
+// 不返回undefined 会多次执行
+
+class Lesson {
+    constructor () {
+        this.index = 0
+        this.hooks = {
+            // 订阅勾子
+            arch: new SyncLoopHook(['name']),
+
+        }
+    }
+    start () {
+        // 发布
+        this.hooks.arch.call('may')
+    }
+    tap () {   //  注册监听函数,订阅
+        this.hooks.arch.tap('node',  (name) => {
+            console.log('node', name)
+            return ++this.index === 3 ? undefined : '继续学'
+        })
+        this.hooks.arch.tap('react',  (name) => {
+            console.log('react', name)
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start() // 启动勾子
+
+```
+
+`4.case.js`
+
+```
+let {SyncLoopHook} = require('tapable')   // 解构同步勾子
+
+// 不返回undefined 会多次执行
+
+class Lesson {
+    constructor () {
+        this.index = 0
+        this.hooks = {
+            // 订阅勾子
+            arch: new SyncLoopHook(['name']),
+
+        }
+    }
+    start () {
+        // 发布
+        this.hooks.arch.call('may')
+    }
+    tap () {   //  注册监听函数,订阅
+        this.hooks.arch.tap('node',  (name) => {
+            console.log('node', name)
+            return ++this.index === 3 ? undefined : '继续学'
+        })
+        this.hooks.arch.tap('react',  (name) => {
+            console.log('react', name)
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start() // 启动勾子
+
 ```

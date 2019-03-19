@@ -1,4 +1,4 @@
-class SyncHook {  // 勾子是同步的
+class SyncBailHook {  // 勾子是同步的
     constructor(args) {  // args => ['name']
         this.tasks = []
     }
@@ -6,14 +6,20 @@ class SyncHook {  // 勾子是同步的
         this.tasks.push(task)
     }
     call (...args) {
-        this.tasks.forEach((task) => task(...args))
+        let ret;   // 当前函数的返回值
+        let index = 0; // 当前要执行的第一个
+        do {
+            ret = this.tasks[index](...args)
+        } while (ret === undefined  && index < this.tasks.length)
     }
 }
 
-let hook = new SyncHook(['name'])
+let hook = new SyncBailHook(['name'])
 
 hook.tap('react', function (name) {
     console.log('react', name);
+    return '停止学习'
+    // return undefined
 })
 
 

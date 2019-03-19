@@ -1,11 +1,12 @@
-let {SyncHook} = require('tapable')   // 解构同步勾子
+let {SyncWaterfallHook} = require('tapable')   // 解构同步勾子
 
+// waterfall 瀑布
 
 class Lesson {
     constructor () {
         this.hooks = {
             // 订阅勾子
-            arch: new SyncHook(['name']),
+            arch: new SyncWaterfallHook(['name']),
 
         }
     }
@@ -16,6 +17,7 @@ class Lesson {
     tap () {   //  注册监听函数,订阅
         this.hooks.arch.tap('node', function (name) {
             console.log('node', name)
+            return '学的不错'
         })
         this.hooks.arch.tap('react', function (name) {
             console.log('react', name)
