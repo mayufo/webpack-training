@@ -23,7 +23,7 @@
   + noParse(当某些包是独立的个体没有依赖)
   + IgnorePlugin(忽略依赖中不必要的语言包)
   + dllPlugin(动态链接库)
-  + happypack
+  + happypack(多线程打包)
 - src6
   + webpack 自带的优化
 - src7
@@ -31,3 +31,7 @@
 - src8
   + 懒加载
   + 热更新  
+- src9
+  + tapale介绍
+  + tapale
+  + AsyncParallelHook

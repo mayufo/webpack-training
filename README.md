@@ -3,6 +3,8 @@
 [webpack](https://webpack.docschina.org/)
 
 
+[文件对应的课程](https://github.com/mayufo/webpack-training/blob/master/content.md)
+
 ## 安装前先npm初始化
 ```
 npm init -y
@@ -1458,7 +1460,7 @@ if (module.hot) {
 
 `yarn add tabable`
 
-`1.start.js`
+`1.use.js`
 
 ```
 let {SyncHook} = require('tapable')   // 结构同步勾子
@@ -1493,7 +1495,7 @@ l.start() // 启动勾子
 
 ```
 
-`1.case.js`
+`1.theory.js`
 
 ```
 class SyncHook {  // 勾子是同步的
@@ -1528,7 +1530,8 @@ hook.call('jw')
 
 `SyncBailHook`为勾子加了个保险，当`return`返回不是`undefine`就会停止
 
-`2.start.js`
+`2.use.js`
+
 ```
 let {SyncBailHook} = require('tapable')   // 解构同步勾子
 
@@ -1565,7 +1568,7 @@ l.start() // 启动勾子
 
 ```
 
-`2.case.js`
+`2.theory.js`
 
 ```
 class SyncBailHook {  // 勾子是同步的
@@ -1606,7 +1609,7 @@ hook.call('jw')
 
 `SyncWaterfallHook`上一个监听函数的返回值可以传给下一个监听函数
  
-`2.start.js`
+`3.use.js`
  
 ```
 let {SyncWaterfallHook} = require('tapable')   // 解构同步勾子
@@ -1644,7 +1647,7 @@ l.start() // 启动勾子
 
 ```
 
-`3.case.js`
+`3.theory.js`
 
 ```
 class SyncWaterfallHook {  // 勾子是同步的 - 瀑布
@@ -1693,7 +1696,7 @@ hook.call('jw')
 
 `SyncLoopHook`当监听函数被触发的时候，如果该监听函数返回`true`时则这个监听函数会反复执行，如果返回 `undefined` 则表示退出循环
 
-`4.case.js`
+`4.use.js`
 
 ```
 let {SyncLoopHook} = require('tapable')   // 解构同步勾子
@@ -1732,33 +1735,132 @@ l.start() // 启动勾子
 
 ```
 
-`4.case.js`
+`4.theory.js`
 
 ```
-let {SyncLoopHook} = require('tapable')   // 解构同步勾子
+class SyncLoopHook {  // 勾子是同步的 - 瀑布
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+    tap (name, task) {
+        this.tasks.push(task)
+    }
+    call (...args) {
+        this.tasks.forEach(task => {
+            let ret
+            do {
+                ret = task(...args);
+            } while(ret !== undefined)
+        })
+    }
+}
+
+let hook = new SyncLoopHook(['name'])
+let total = 0
+hook.tap('react', function (name) {
+    console.log('react', name);
+    return ++total === 3 ? undefined: '继续学'
+})
+
+
+hook.tap('node', function (name) {
+    console.log('node', name);
+})
+
+hook.tap('webpack', function (data) {
+    console.log('webpack', data);
+})
+
+
+
+hook.call('jw')
+
+```
+
+
+## `AsyncParallelHook` 与 `AsyncParallelBailHook`
+
+异步的勾子分两种`串行`和`并行`
+
+`并行`等待所有并发的异步事件执行后执行回调
+
+注册的三种方法
+
+1. 异步的注册方法`tap`
+2. 异步的注册方法`tapAsync`， 还有个回调参数
+3. `topPromise`,注册`promise`
+
+调用的三种
+
+1. call (同步)
+2. callAsync （异步）
+3. promise （异步）
+
+这里介绍的是异步并行的
+
+#### AsyncParallelHook 
+
+不关心监听函数的返回值。
+
+`5.use.js`
+
+```
+let {AsyncParallelHook} = require('tapable')   // 解构同步勾子
 
 // 不返回undefined 会多次执行
 
 class Lesson {
-    constructor () {
+    constructor() {
         this.index = 0
         this.hooks = {
             // 订阅勾子
-            arch: new SyncLoopHook(['name']),
+            arch: new AsyncParallelHook(['name']),
 
         }
     }
-    start () {
-        // 发布
-        this.hooks.arch.call('may')
+
+    start() {
+        // 发布callAsync
+        // this.hooks.arch.callAsync('may', function () {
+        //     console.log('end');
+        // })
+        // 另一种发布promise
+        this.hooks.arch.promise('may').then(function () {
+                console.log('end');
+            }
+        )
     }
-    tap () {   //  注册监听函数,订阅
-        this.hooks.arch.tap('node',  (name) => {
-            console.log('node', name)
-            return ++this.index === 3 ? undefined : '继续学'
+
+    tap() {   //  注册监听函数,订阅
+        // 注册tapAsync
+        // this.hooks.arch.tapAsync('node',  (name, callback) => {
+        //     setTimeout(() => {
+        //         console.log('node', name)
+        //         callback()
+        //     }, 1000)
+        // })
+        // this.hooks.arch.tapAsync('react',  (name, callback) => {
+        //     setTimeout(() => {
+        //         console.log('react', name)
+        //         callback()
+        //     }, 1000)
+        // })
+        // 另一种订阅 tapPromise
+        this.hooks.arch.tapPromise('node', (name) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('node', name)
+                    resolve()
+                }, 1000)
+            })
         })
-        this.hooks.arch.tap('react',  (name) => {
-            console.log('react', name)
+        this.hooks.arch.tapPromise('react', (name) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('react', name)
+                    resolve()
+                }, 1000)
+            })
         })
     }
 }
@@ -1769,4 +1871,105 @@ let l = new Lesson()
 l.tap();  //注册两个函数
 l.start() // 启动勾子
 
+
 ```
+
+
+`5.theory.js`
+
+```
+class AsyncParallelHook {  // 勾子是同步的 - 瀑布
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+
+    tapAsync(name, task) {
+        this.tasks.push(task)
+    }
+
+    tapPromise(name, task) {
+        this.tasks.push(task)
+    }
+    callAsync(...args) {
+        let finalCallback = args.pop()   // 拿出最终的函数
+        let index = 0
+        let done = () => {   // 类似promise.all的实现
+            index++;
+            if (index === this.tasks.length) {
+                finalCallback();
+            }
+        }
+        this.tasks.forEach(task => {
+            task(...args, done) // 这里的args 已经把最后一个参数删掉
+        })
+    }
+
+    promise(...args) {
+        let tasks = this.tasks.map(task => task(...args))
+        return Promise.all(tasks)
+    }
+}
+
+let hook = new AsyncParallelHook(['name'])
+
+
+// hook.tapAsync('react', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('react', name);
+//         callback()
+//     }, 1000)
+// })
+//
+// hook.tapAsync('node', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('node', name);
+//         callback()
+//     }, 1000)
+// })
+
+// hook.tapAsync('webpack', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('webpack', name);
+//         callback()
+//     }, 1000)
+// })
+
+hook.tapPromise('react', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('react', name);
+            resolve()
+        }, 1000)
+    })
+})
+
+hook.tapPromise('node', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('node', name);
+            resolve()
+        }, 1000)
+    })
+})
+
+
+
+//
+// hook.callAsync('jw', function () {
+//     console.log('end');
+// })
+
+
+hook.promise('jw').then(function () {
+    console.log('end');
+})
+
+
+```
+
+
+#### AsyncParallelBailHook
+
+只要监听函数的返回值不为 `null`，就会忽略后面的监听函数执行，直接跳跃到`callAsync`等触发函数绑定的回调函数，然后执行这个被绑定的回调函数。
+
+使用和原理与`SyncBailHook`相似
