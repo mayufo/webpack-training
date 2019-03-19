@@ -2025,4 +2025,342 @@ hook.promise('jw').then(function () {
 使用和原理与`SyncBailHook`相似
 
 
-## 异步串行
+## 异步串行 —— AsyncSeriesHook
+
+`串行 `one by one
+
+`6.use.js`
+
+```
+let {AsyncSeriesHook} = require('tapable')   // 解构同步勾子
+
+
+class Lesson {
+    constructor() {
+        this.index = 0
+        this.hooks = {
+            // 订阅勾子
+            arch: new AsyncSeriesHook(['name']),
+
+        }
+    }
+
+    start() {
+        // 发布
+        // this.hooks.arch.callAsync('may', function () {
+        //     console.log('end');
+        // })
+        // 另一种发布
+        this.hooks.arch.promise('may').then(function () {
+                console.log('end');
+            }
+        )
+    }
+
+    tap() {   //  注册监听函数,订阅
+        // this.hooks.arch.tapAsync('node',  (name, callback) => {
+        //     setTimeout(() => {
+        //         console.log('node', name)
+        //         callback()
+        //     }, 1000)
+        // })
+        // this.hooks.arch.tapAsync('react',  (name, callback) => {
+        //     setTimeout(() => {
+        //         console.log('react', name)
+        //         callback()
+        //     }, 1000)
+        // })
+        // 另一种订阅
+        this.hooks.arch.tapPromise('node', (name) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('node', name)
+                    resolve()
+                }, 1000)
+            })
+        })
+        this.hooks.arch.tapPromise('react', (name) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('react', name)
+                    resolve()
+                }, 1000)
+            })
+        })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start(); // 启动勾子
+
+```
+
+`6.theory.js`
+
+```
+class AsyncSeriesHook {  //
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+
+    tapAsync(name, task) {
+        this.tasks.push(task)
+    }
+
+    tapPromise(name, task) {
+        this.tasks.push(task)
+    }
+
+    callAsync(...args) {
+        let finalCallback = args.pop()
+        let index = 0;
+        let next = () => {
+            if (this.tasks.length === index) return finalCallback();
+            let task = this.tasks[index++];
+            task(...args, next);
+        }
+        next();
+    }
+
+    promise(...args) {
+        // 将promise串联起来
+        let [first, ...other] = this.tasks
+        return other.reduce((p, n) => {
+             return p.then(() => n (...args))
+        }, first(...args))
+    }
+}
+
+let hook = new AsyncSeriesHook(['name'])
+
+
+// hook.tapAsync('react', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('react', name);
+//         callback()
+//     }, 1000)
+// })
+//
+// hook.tapAsync('node', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('node', name);
+//         callback()
+//     }, 1000)
+// })
+//
+// hook.tapAsync('webpack', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('webpack', name);
+//         callback()
+//     }, 1000)
+// })
+
+
+hook.tapPromise('react', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('react', name);
+            resolve()
+        }, 1000)
+    })
+})
+
+hook.tapPromise('node', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('node', name);
+            resolve()
+        }, 1000)
+    })
+})
+
+
+
+
+// hook.callAsync('jw', function () {
+//     console.log('end');
+// })
+
+
+hook.promise('jw').then(function () {
+    console.log('end');
+})
+
+```
+
+## 异步串行 —— AsyncSeriesWaterfallHook
+
+上一个监听函数的中的`callback(err, data)`的第二个参数,可以作为下一个监听函数的参数
+
+
+`7.use.js`
+
+```
+let {AsyncSeriesWaterfallHook} = require('tapable')   // 解构同步勾子
+
+
+class Lesson {
+    constructor() {
+        this.index = 0
+        this.hooks = {
+            // 订阅勾子
+            arch: new AsyncSeriesWaterfallHook(['name']),
+
+        }
+    }
+
+    start() {
+        // 发布
+        this.hooks.arch.callAsync('may', function () {
+            console.log('end');
+        })
+        // 另一种发布
+        // this.hooks.arch.promise('may').then(function () {
+        //         console.log('end');
+        //     }
+        // )
+    }
+
+    tap() {   //  注册监听函数,订阅
+        this.hooks.arch.tapAsync('node',  (name, callback) => {
+            setTimeout(() => {
+                console.log('node', name)
+                // callback(null, 'result')
+                callback('error', 'result')   // 如果放error, 会跳过直接后面的勾子，直接走到最终的
+
+            }, 1000)
+        })
+        this.hooks.arch.tapAsync('react',  (name, callback) => {
+            setTimeout(() => {
+                console.log('react', name)
+                callback()
+            }, 1000)
+        })
+        // 另一种订阅
+        // this.hooks.arch.tapPromise('node', (name) => {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             console.log('node', name)
+        //             resolve()
+        //         }, 1000)
+        //     })
+        // })
+        // this.hooks.arch.tapPromise('react', (name) => {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             console.log('react', name)
+        //             resolve()
+        //         }, 1000)
+        //     })
+        // })
+    }
+}
+
+
+let l = new Lesson()
+
+l.tap();  //注册两个函数
+l.start(); // 启动勾子
+
+```
+
+`7.theory.js`
+
+```
+class AsyncSeriesWaterfallHook {  //
+    constructor(args) {  // args => ['name']
+        this.tasks = []
+    }
+
+    tapAsync(name, task) {
+        this.tasks.push(task)
+    }
+
+    tapPromise(name, task) {
+        this.tasks.push(task)
+    }
+    callAsync(...args) {
+        let finalCallback = args.pop()
+        let index = 0;
+        let next = (err, data) => {
+            let task = this.tasks[index]
+            if(!task) return finalCallback();
+            if (index === 0) {
+                // 执行的第一个
+                task(...args, next)
+            } else {
+                task(data, next)
+            }
+            index ++
+        }
+        next();
+    }
+
+    promise(...args) {
+        // 将promise串联起来
+        let [first, ...other] = this.tasks
+        return other.reduce((p, n) => {
+             return p.then((data) => n(data))
+        }, first(...args))
+    }
+}
+
+let hook = new AsyncSeriesWaterfallHook(['name'])
+
+
+// hook.tapAsync('react', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('react', name);
+//         callback(null, '结果1')
+//     }, 1000)
+// })
+//
+// hook.tapAsync('node', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('node', name);
+//         callback(null, '结果2')
+//     }, 1000)
+// })
+//
+// hook.tapAsync('webpack', function (name, callback) {
+//     setTimeout(() => {
+//         console.log('webpack', name);
+//         callback()
+//     }, 1000)
+// })
+
+//
+hook.tapPromise('react', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('react', name);
+            resolve('result')
+        }, 1000)
+    })
+})
+
+hook.tapPromise('node', function (name, callback) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('node', name);
+            resolve()
+        }, 1000)
+    })
+})
+
+
+//
+//
+// hook.callAsync('jw', function () {
+//     console.log('end');
+// })
+
+
+hook.promise('jw').then(function () {
+    console.log('end');
+})
+
+```
