@@ -32,6 +32,8 @@
   + 懒加载
   + 热更新  
 - src9
-  + tapale介绍
-  + tapale
+  + tapable介绍
+  + tapable
   + AsyncParallelHook
+  + AsyncSeriesHook
+  + AsyncSeriesWaterfallHook
