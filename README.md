@@ -1,4 +1,4 @@
-最好的webpack教程，看文档
+:sparkling_heart: 最好的webpack教程，看官方文档
 
 [webpack文档](https://webpack.docschina.org/)
 
@@ -2368,6 +2368,7 @@ hook.promise('jw').then(function () {
 
 ## 手写webpack
 
+[对应的may-pack项目](https://github.com/mayufo/webpack-training)
 
 
 `yarn add webpack webpack-cli -D`
@@ -2718,3 +2719,72 @@ class Compiler {
 module.exports = Compiler
 
 ```
+
+## 生成打包工具
+
+使用ejs模板
+
+`main.ejs`
+```
+(function (modules) {
+var installedModules = {};
+
+function __webpack_require__(moduleId) {
+
+if (installedModules[moduleId]) {
+return installedModules[moduleId].exports;
+}
+var module = installedModules[moduleId] = {
+i: moduleId,
+l: false,
+exports: {}
+};
+
+modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+module.l = true;
+
+return module.exports;
+}
+
+
+// Load entry module and return exports
+return __webpack_require__(__webpack_require__.s = "<%-entryId %>");
+})({
+<% for(let key in modules){ %>
+    "<%- key %>":
+    (function (module, exports,__webpack_require__) {
+eval(`<%-modules[key] %>`);
+}),
+<% } %>
+});
+
+```
+
+[ejs入门](https://ejs.bootcss.com/)
+
+`yarn add ejs`
+
+
+`may-pack`
+
+```
+let ejs = require('ejs')
+```
+
+```
+// 发射文件
+    emitFile() {
+        // 用数据 渲染想要的
+        // 输出到那个目录下
+        let main = path.join(this.config.output.path, this.config.output.filename)
+        let templateStr = this.getSource(path.join(__dirname, 'main.ejs'))
+        let code = ejs.render(templateStr, { entryId: this.entryId, modules: this.modules})
+        this.assets = {}
+        // 路径对应的代码
+        this.assets[main] = code
+        fs.writeFileSync(main, this.assets[main])
+    }
+```
+
+在`webpack-training`项目中运行`npx may-pack`, 得到`bundle.js`,运行得到结果
