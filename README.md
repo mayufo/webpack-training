@@ -2543,7 +2543,7 @@ module.exports = Compiler
 
 ## 创建依赖关系
 
-`Compiler.js`
+`may-pack`中`Compiler.js`
 
 ```
 
@@ -2627,6 +2627,7 @@ module.exports = Compiler
 
 `yarn add babylon @babel/traverse @babel/types @babel/generator`
 
+`may-pack`中`Compiler.js`
 
 ```
 let path = require('path')
@@ -2724,7 +2725,7 @@ module.exports = Compiler
 
 使用ejs模板
 
-`main.ejs`
+`may-pack`中`main.ejs`
 ```
 (function (modules) {
 var installedModules = {};
@@ -2766,7 +2767,7 @@ eval(`<%-modules[key] %>`);
 `yarn add ejs`
 
 
-`may-pack`
+`may-pack`中`Compiler.js`
 
 ```
 let ejs = require('ejs')
@@ -2788,3 +2789,133 @@ let ejs = require('ejs')
 ```
 
 在`webpack-training`项目中运行`npx may-pack`, 得到`bundle.js`,运行得到结果
+
+## 增加loader
+
+创建`loader`文件夹，创建`less-loader.js`和`style-loader.js`
+
+`yarn add less`
+
+[less使用](http://lesscss.cn/#using-less)
+
+`less-loader`
+
+```
+// 将less转为css
+let less = require('less')
+
+function loader(source) {
+    let css = ''
+    less.render(source, function (err, output) {
+        css = output.css
+    })
+    css = css.replace(/\n/g, '\\n');
+    return css
+}
+
+module.exports = loader
+
+```
+
+`style-loader`
+
+```
+// 将css插入到html头部
+function loader(source) {
+    console.log(111);
+    let style = `
+    let style = document.createElement('style')
+    style.innerHTML = ${JSON.stringify(source)}
+    document.head.appendChild(style)
+   `
+    return style
+}
+module.exports = loader
+
+
+// JSON.stringify(source) 可以将代码转为一行
+
+```
+
+`webpack.config.js`
+
+```
+let path = require('path')
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    path.resolve(__dirname, 'loader', 'style-loader'),
+                    path.resolve(__dirname, 'loader', 'less-loader')
+                ]
+            }
+        ]
+    }
+}
+
+```
+
+创建`index.less`
+
+```
+body {
+  background: red
+}
+```
+
+`index.js`
+
+```
+ let str = require('./a.js')
+
+ require('./index.less')
+
+ console.log(str);
+
+```
+
+`may-pack`中`Compiler.js`
+
+```
+// 拿到模块内容
+    getSource (modulePath) {
+        // 匹配各种文件的规则
+        let rules= this.config.module.rules;   // webpack.config.js 中rules的数组
+        let content = fs.readFileSync(modulePath, 'utf8')
+
+        for (let i = 0; i < rules.length; i++) {
+            let rule = rules[i]
+            let {test, use} = rule
+            let len = use.length - 1
+
+            if (test.test(modulePath)) {
+                // console.log(use[len]);
+                function normalLoader () {
+                    // console.log(use[len--]);
+                    let loader = require(use[len--])
+                    content = loader(content)
+                    // 递归调用loader 实现转化
+                    if (len >= 0) {
+                        normalLoader()
+                    }
+                }
+                normalLoader()
+            }
+
+        }
+        return content
+    }
+```
+
+运行`npx may-pack`
+
+
