@@ -3122,3 +3122,211 @@ module.exports = {
 
 1. 通过配别名`alias`
 2. 通过`modules`
+
+`npx webpack`
+
+## 配置多个loader
+
+1. 数组方式
+
+先分别在`loader`文件下创建，`loader2.js`和`loader3.js`
+
+```
+
+function loader(source) {  // loader的参数就是源代码
+    console.log('loader2');  // loader3.js 类似
+    return source
+}
+module.exports = loader
+
+```
+
+`webpack.config.js`
+
+```
+rules: [
+    {
+        test: /\.js$/,
+        use: ['loader3', 'loader2', 'loader1']
+    },
+]
+```
+
+运行`npx webpack`,分别打出
+```
+loader1
+loader2
+loader3
+```
+
+2. 对象方式
+
+```
+rules: [
+    {
+        test: /\.js$/,
+        use: ['loader3']
+    },
+    {
+        test: /\.js$/,
+        use: ['loader2']
+    },
+    {
+        test: /\.js$/,
+        use: ['loader1']
+    }
+]
+```
+
+运行`npx webpack`,分别打出
+
+```
+loader1
+loader2
+loader3
+```
+
+
+> `loader`的顺序: 从右到左, 从下到上
+
+
+也可以通过配置不同的参数改变`loader`的执行顺序，`pre` 前面的， `post`在后面的， `normal`正常
+
+
+```
+{
+    test: /\.js$/,
+    use: ['loader1'],
+    enforce: "pre"
+},
+{
+    test: /\.js$/,
+    use: ['loader2']
+},
+{
+    test: /\.js$/,
+    use: ['loader3'],
+    enforce: "post"
+},
+```
+
+`loader` 带参数执行的顺序: `pre  -> normal -> inline -> post`
+
+`inline`为行内`loader`
+
+在`loader`文件中新建`inlin-loader`
+
+```
+
+function loader(source) {  // loader的参数就是源代码
+    console.log('inline');
+    return source
+}
+module.exports = loader
+
+```
+
+`src/a.js`
+
+```
+module.exports = 'may'
+```
+
+`src/index`
+
+```
+console.log('hello')
+let srt = require('-!inline-loader!./a')
+```
+
+1. `-!`禁用`pre-loader`和 `normal-loader`来处理了
+
+```
+loader1
+loader2
+loader3
+inline
+loader3
+```
+
+
+
+2. `!`禁用`normal-loader`
+
+```
+loader1
+loader2
+loader3
+loader1
+inline
+loader3
+```
+
+
+
+3. `!!` 禁用`pre-loader`、`normal-loader`、`post-loader`,只能行内处理
+
+```
+loader1
+loader2
+loader3
+inline
+```
+
+loader 默认由两部分组成`pitch`和`normal`
+
+`user: [loader3, loader2, loader1]`
+
+
+无返回值: 先执行pitch方法,从左到右，再获取资源
+
+
+```
+
+    pitch loader - 无返回值
+    
+pitch   loader3 → loader2 → loader1  
+                                    ↘
+                                      资源
+                                    ↙
+normal   loader3 ← loader2 ← loader1 
+```
+
+有返回值: 直接跳过后续所有的`loader`包括自己的,跳到之前的`loader`, 可用于阻断
+
+[loader](https://webpack.docschina.org/api/loaders/)
+
+```
+user: [loader3, loader2, loader1]
+
+    pitch loader - 有返回值
+    
+pitch   loader3 → loader2  loader1  
+                     ↙               
+               有返回值               资源
+               ↙                      
+normal  loader3  loader2  loader1 
+```
+
+`loadeer2.js`
+
+```
+
+function loader(source) {  // loader的参数就是源代码
+    console.log('loader2');
+    return source
+}
+
+loader.pitch = function () {
+    return '111'
+}
+module.exports = loader
+
+```
+
+结果
+
+```
+loader3
+```
+

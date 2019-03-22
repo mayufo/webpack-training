@@ -16,12 +16,39 @@ module.exports = {
     },
     module: {
         rules: [
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader3']
+            // },
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader2']
+            // },
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader1']
+            // },
             {
                 test: /\.js$/,
-                // use: [path.resolve(__dirname, 'loader', 'loader1')]
-                use: 'loader1' // 如何找到这个loader1
-
+                use: ['loader1'],
+                enforce: "pre"
             },
+            {
+                test: /\.js$/,
+                use: ['loader2']
+            },
+            {
+                test: /\.js$/,
+                use: ['loader3'],
+                enforce: "post"
+            },
+            // {
+            //     test: /\.js$/,
+            //     // use: [path.resolve(__dirname, 'loader', 'loader1')]
+            //     // use: 'loader1' // 如何找到这个loader1
+            //     use: ['loader3', 'loader2', 'loader1']
+            //
+            // },
             // {
             //     test: /\.less$/,
             //     use: [
