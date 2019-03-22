@@ -3035,3 +3035,90 @@ run() {
 ```
 
 运行`npx may-pack`
+
+
+## loader
+
+
+[手写loader](https://juejin.im/post/59e6a5de518825469c7461da)
+
+`webapck.config.js`
+
+```
+let path = require('path')
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index',
+    output: {
+        filename: 'build.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js/,
+                use: 'loader1' // 如何找到这个loader1
+            }
+        ]
+    },
+}
+
+```
+
+创建`loader`文件`loader1.js`
+
+```
+console.log(22);
+
+function loader(source) {  // loader的参数就是源代码
+    return source
+}
+module.exports = loader
+
+```
+
+
+`webpack.config.js`
+
+```
+let path = require('path')
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'build.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    resolveLoader: {
+      // 别名
+      // alias: {
+      //     loader1: path.resolve(__dirname, 'loader', 'loader1')
+      // }
+        modules: ['node_modules', path.resolve(__dirname, 'loader')]  // 先找node_modules, 再去loader中去找
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                // use: [path.resolve(__dirname, 'loader', 'loader1')]
+                use: 'loader1' // 如何找到这个loader1
+
+            },
+            // {
+            //     test: /\.less$/,
+            //     use: [
+            //         path.resolve(__dirname, 'loader', 'style-loader'),
+            //         path.resolve(__dirname, 'loader', 'less-loader')
+            //     ]
+            // }
+        ]
+    },
+}
+
+```
+如何找到这个`loader1`
+
+1. 通过配别名`alias`
+2. 通过`modules`

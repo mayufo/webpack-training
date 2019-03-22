@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e79507d1-49a5-4260-bbad-3d731a553ce0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/history/src10/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/history/webpack.config10.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/loader/loader1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/style-loader.js" beforeDir="false" afterPath="$PROJECT_DIR$/loader/style-loader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content.md" beforeDir="false" afterPath="$PROJECT_DIR$/content.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/a.js" beforeDir="false" afterPath="$PROJECT_DIR$/history/src10/a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/b.js" beforeDir="false" afterPath="$PROJECT_DIR$/history/src10/base/b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/history/src10/index.less" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,7 +38,7 @@
           <entry key="css" value="13" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="16" />
-          <entry key="js" value="137" />
+          <entry key="js" value="141" />
           <entry key="json" value="6" />
           <entry key="less" value="6" />
           <entry key="md" value="12" />
@@ -42,7 +50,7 @@
           <entry key="CSS" value="13" />
           <entry key="HTML" value="16" />
           <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="137" />
+          <entry key="JavaScript" value="141" />
           <entry key="Less" value="6" />
           <entry key="Markdown" value="6" />
           <entry key="PLAIN_TEXT" value="12" />
@@ -53,10 +61,10 @@
           <entry key="css" value="62" />
           <entry key="gitignore" value="22" />
           <entry key="html" value="230" />
-          <entry key="js" value="12735" />
+          <entry key="js" value="13227" />
           <entry key="json" value="128" />
           <entry key="less" value="108" />
-          <entry key="md" value="8579" />
+          <entry key="md" value="8777" />
           <entry key="txt" value="29" />
         </counts>
       </usages-collector>
@@ -65,24 +73,24 @@
           <entry key="CSS" value="62" />
           <entry key="HTML" value="230" />
           <entry key="JSON" value="128" />
-          <entry key="JavaScript" value="12735" />
+          <entry key="JavaScript" value="13227" />
           <entry key="Less" value="108" />
-          <entry key="Markdown" value="5180" />
+          <entry key="Markdown" value="5378" />
           <entry key="PLAIN_TEXT" value="3450" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.58787465">
+    <splitter split-orientation="horizontal" split-proportion="0.64713895">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/README.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="551">
-                    <caret line="3033" column="5" selection-start-line="3033" selection-start-column="5" selection-end-line="3033" selection-end-column="5" />
+                  <first_editor relative-caret-position="570">
+                    <caret line="3118" lean-forward="true" selection-start-line="3118" selection-end-line="3118" />
                   </first_editor>
                   <second_editor />
                 </state>
@@ -90,28 +98,33 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/loader/less-loader.js">
+            <entry file="file://$PROJECT_DIR$/loader/loader1.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+                <state relative-caret-position="15">
+                  <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/loader/style-loader.js">
+            <entry file="file://$PROJECT_DIR$/history/src10/a.js">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/history/webpack.config10.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="14" lean-forward="true" selection-end-line="14" />
+                <state relative-caret-position="177">
+                  <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/index.less">
+            <entry file="file://$PROJECT_DIR$/dist/bundle.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" lean-forward="true" selection-end-line="3" />
+                <state relative-caret-position="-153">
+                  <caret line="54" column="3" lean-forward="true" selection-start-line="54" selection-start-column="3" selection-end-line="54" selection-end-column="3" />
                 </state>
               </provider>
             </entry>
@@ -119,26 +132,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" lean-forward="true" selection-end-line="6" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/a.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="4" selection-start-line="4" selection-end-line="4" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/base/b.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret selection-end-line="1" />
+                <state relative-caret-position="15">
+                  <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
                 </state>
               </provider>
             </entry>
@@ -168,28 +163,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/webpack.config.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="478">
-                  <caret line="41" column="5" lean-forward="true" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/dist/bundle.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="521">
-                  <caret line="54" column="3" lean-forward="true" selection-start-line="54" selection-start-column="3" selection-end-line="54" selection-end-column="3" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/node_modules/webpack/lib/web/WebEnvironmentPlugin.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                  </folding>
+                <state relative-caret-position="373">
+                  <caret line="25" column="35" lean-forward="true" selection-end-line="34" />
                 </state>
               </provider>
             </entry>
@@ -229,8 +204,8 @@
             <entry file="file://$PROJECT_DIR$/content.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="524">
-                    <caret line="35" column="11" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="11" />
+                  <first_editor relative-caret-position="593">
+                    <caret line="47" column="2" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="2" />
                   </first_editor>
                   <second_editor />
                 </state>
@@ -265,9 +240,9 @@
       <find>AsyncParralleHook</find>
       <find>tapAsync</find>
       <find>/***/</find>
-      <find>如何优雅引入</find>
-      <find>111</find>
       <find>console.log</find>
+      <find>111</find>
+      <find>如何优雅引入</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -276,7 +251,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/dist/css/main.css" />
         <option value="$PROJECT_DIR$/webpack.config1.js" />
         <option value="$PROJECT_DIR$/src/one.js" />
         <option value="$PROJECT_DIR$/history/webpack.config2.js" />
@@ -315,16 +289,17 @@
         <option value="$PROJECT_DIR$/src/6.theory.js" />
         <option value="$PROJECT_DIR$/src/7.use.js" />
         <option value="$PROJECT_DIR$/src/7.theory.js" />
-        <option value="$PROJECT_DIR$/content.md" />
         <option value="$PROJECT_DIR$/src/base/b.js" />
         <option value="$PROJECT_DIR$/src/a.js" />
         <option value="$PROJECT_DIR$/dist/main.js" />
         <option value="$PROJECT_DIR$/dist/bundle.js" />
         <option value="$PROJECT_DIR$/src/index.less" />
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/dist/index.html" />
         <option value="$PROJECT_DIR$/loader/style-loader.js" />
         <option value="$PROJECT_DIR$/loader/less-loader.js" />
+        <option value="$PROJECT_DIR$/content.md" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/loader/loader1.js" />
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
@@ -376,12 +351,6 @@
             <path>
               <item name="webpack" type="b2602c69:ProjectViewProjectNode" />
               <item name="webpack" type="462c0819:PsiDirectoryNode" />
-              <item name="history" type="462c0819:PsiDirectoryNode" />
-              <item name="src9" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="webpack" type="b2602c69:ProjectViewProjectNode" />
-              <item name="webpack" type="462c0819:PsiDirectoryNode" />
               <item name="loader" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -396,7 +365,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="cont&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/content.md&#10;content&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/content.md&#10;md&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/README.md&#10;1&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/history/webpack.config1.js&#10;inde&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/src/index.js&#10;we&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/webpack.config.js&#10;pack&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;PA&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;re&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/README.md&#10;pac&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;package&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json" />
+    <property name="SearchEverywhereHistoryKey" value="we&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/history/webpack.config10.js&#10;cont&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/content.md&#10;content&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/content.md&#10;md&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/README.md&#10;1&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/history/webpack.config1.js&#10;inde&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/src/index.js&#10;pack&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;PA&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;re&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/README.md&#10;pac&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json&#10;package&#9;FILE&#9;file:///Users/liuhuimin/work/webpack/package.json" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -474,12 +443,12 @@
       <option name="presentableId" value="Default" />
       <updated>1551950080063</updated>
       <workItem from="1551950081323" duration="53258000" />
-      <workItem from="1552615583802" duration="70974000" />
+      <workItem from="1552615583802" duration="74897000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124232000" />
+    <option name="totallyTimeSpent" value="128155000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -499,15 +468,15 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4934176" weight="0.32970297" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48867825" weight="0.32970297" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48815167" weight="0.32970297" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49710375" weight="0.32970297" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49657714" weight="0.32970297" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.549763" visible="true" weight="0.33366337" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.45023698" side_tool="true" visible="true" weight="0.33366337" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.51184833" side_tool="true" weight="0.32970297" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -539,29 +508,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/history/src5/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/history/postcss.config1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/history/webpack.config.react5.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -758,16 +704,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="524">
-            <caret line="35" column="11" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="11" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/history/webpack.config6.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-60">
@@ -821,31 +757,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dist/bundle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="54" column="3" lean-forward="true" selection-start-line="54" selection-start-column="3" selection-end-line="54" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loader/style-loader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" lean-forward="true" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.less">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" lean-forward="true" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" lean-forward="true" selection-end-line="6" />
         </state>
       </provider>
     </entry>
@@ -870,6 +785,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/history/src10/a.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="593">
+            <caret line="47" column="2" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="2" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/webpack/lib/web/WebEnvironmentPlugin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -879,25 +807,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loader/style-loader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/loader/less-loader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        <state relative-caret-position="195">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/bundle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="54" column="3" lean-forward="true" selection-start-line="54" selection-start-column="3" selection-end-line="54" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/history/webpack.config10.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loader/loader1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="41" column="5" lean-forward="true" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
+        <state relative-caret-position="373">
+          <caret line="25" column="35" lean-forward="true" selection-end-line="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="551">
-            <caret line="3033" column="5" selection-start-line="3033" selection-start-column="5" selection-end-line="3033" selection-end-column="5" />
+          <first_editor relative-caret-position="570">
+            <caret line="3118" lean-forward="true" selection-start-line="3118" selection-end-line="3118" />
           </first_editor>
           <second_editor />
         </state>
