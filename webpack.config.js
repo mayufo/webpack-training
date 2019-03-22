@@ -15,6 +15,7 @@ module.exports = {
         modules: ['node_modules', path.resolve(__dirname, 'loader')]  // 先找node_modules, 再去loader中去找
     },
     devtool: 'source-map',
+    watch: true,
     module: {
         rules: [
             // {
@@ -57,14 +58,24 @@ module.exports = {
             //         path.resolve(__dirname, 'loader', 'less-loader')
             //     ]
             // },
-            {
+            // {
+            //     test: /\.js$/,
+            //     use: {
+            //         loader: 'babel-loader2',
+            //         options: {
+            //             presets: [
+            //                 '@babel/preset-env'
+            //             ]
+            //         }
+            //     }
+            // },
+            {    // 给所有匹配的`js`加一个注释
                 test: /\.js$/,
                 use: {
-                    loader: 'babel-loader2',
+                    loader: 'banner-loader',
                     options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ]
+                       text: 'may',
+                       filename: path.resolve(__dirname, 'src/banner.js')
                     }
                 }
             }
