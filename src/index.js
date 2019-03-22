@@ -1,4 +1,4 @@
-console.log('hello')
+// console.log('hello')
 
 
 
@@ -26,3 +26,18 @@ console.log('hello')
 // loader2
 // loader3
 // inline
+
+
+class May {
+    constructor () {
+        this.name = 'may'
+    }
+    getName () {
+        return this.name
+    }
+}
+
+
+let may = new May()
+
+console.log(may.getName());

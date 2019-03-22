@@ -14,6 +14,7 @@ module.exports = {
       // }
         modules: ['node_modules', path.resolve(__dirname, 'loader')]  // 先找node_modules, 再去loader中去找
     },
+    devtool: 'source-map',
     module: {
         rules: [
             // {
@@ -28,20 +29,20 @@ module.exports = {
             //     test: /\.js$/,
             //     use: ['loader1']
             // },
-            {
-                test: /\.js$/,
-                use: ['loader1'],
-                enforce: "pre"
-            },
-            {
-                test: /\.js$/,
-                use: ['loader2']
-            },
-            {
-                test: /\.js$/,
-                use: ['loader3'],
-                enforce: "post"
-            },
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader1'],
+            //     enforce: "pre"
+            // },
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader2']
+            // },
+            // {
+            //     test: /\.js$/,
+            //     use: ['loader3'],
+            //     enforce: "post"
+            // },
             // {
             //     test: /\.js$/,
             //     // use: [path.resolve(__dirname, 'loader', 'loader1')]
@@ -55,7 +56,18 @@ module.exports = {
             //         path.resolve(__dirname, 'loader', 'style-loader'),
             //         path.resolve(__dirname, 'loader', 'less-loader')
             //     ]
-            // }
+            // },
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader2',
+                    options: {
+                        presets: [
+                            '@babel/preset-env'
+                        ]
+                    }
+                }
+            }
         ]
     },
 }
