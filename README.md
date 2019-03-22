@@ -2918,4 +2918,120 @@ body {
 
 运行`npx may-pack`
 
+## 增加plugins
 
+`yarn add tapable`
+
+`may-pack`中`Compiler.js`
+
+```
+constructor(config) {
+        // entry  output
+        this.config = config
+        // 需要保存入口文件的路径
+        this.entryId = '';   // './src/index.js'
+        // 需要保存所有的模块依赖
+        this.modules = {};
+        this.entry = config.entry  // 入口文件
+        // 工作目录
+        this.root = process.cwd(); // 当前运行npx的路径
+
+        this.hooks = {
+            entryOption: new SyncHook(),  // 入口选项
+            compile: new SyncHook(),      // 编译
+            afterCompile: new SyncHook(),  // 编译完成
+            afterPlugins: new SyncHook(),   // 编译完插件
+            run: new SyncHook(),         // 运行
+            emit: new SyncHook(),        // 发射
+            done: new SyncHook()         // 完成
+        }
+        // 如果传递了plugins参数
+        let plugins = this.config.plugins
+        if (Array.isArray(plugins)) {
+            plugins.forEach(plugin => {
+                plugin.apply(this); // 这里只是appLy方法不是改变this指向
+            })
+        }
+        this.hooks.afterPlugins.call()
+    }
+```
+
+在`webpack.config.js`中写插件方法
+
+```
+class P {
+    apply(compiler) {   // 这里只是appLy方法不是改变this指向
+        // 绑定
+        compiler.hooks.emit.tap('emit', function () {
+            console.log('emit');
+        })
+    }
+}
+
+class P1 {
+    apply(compiler) {   // 这里只是appLy方法不是改变this指向
+        // 绑定
+        compiler.hooks.afterPlugins.tap('emit', function () {
+            console.log('afterPlugins');
+        })
+    }
+}
+
+
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    path.resolve(__dirname, 'loader', 'style-loader'),
+                    path.resolve(__dirname, 'loader', 'less-loader')
+                ]
+            }
+        ]
+    },
+    plugins: [
+        new P(),
+        new P1()
+    ]
+}
+```
+
+然后在各个地方调用
+
+`may-pack`中`may-pack.js`
+
+
+```
+.....
+// 调用
+compiler.hooks.entryOption.call()
+// 标识运行编译
+compiler.run()
+```
+
+`may-pack`中`Compiler.js`
+```
+run() {
+        this.hooks.run.call()
+
+        this.hooks.compile.call()
+        // 执行 创建模块的依赖关系
+        this.buildModule(path.resolve(this.root, this.entry), true)  // path.resolve(this.root, this.entry) 得到入口文件的绝对路径
+        // console.log(this.modules, this.entryId);
+        this.hooks.afterCompile.call()
+        // 发射打包后的文件
+        this.emitFile()
+        this.hooks.emit.call()
+        this.hooks.done.call()
+    }
+```
+
+运行`npx may-pack`

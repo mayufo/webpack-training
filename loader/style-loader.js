@@ -1,6 +1,6 @@
 // 将css插入到html头部
 function loader(source) {
-    console.log(111);
+    // console.log(111);
     let style = `
     let style = document.createElement('style')
     style.innerHTML = ${JSON.stringify(source)}
