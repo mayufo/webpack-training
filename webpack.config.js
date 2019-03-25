@@ -8,10 +8,10 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     resolveLoader: {
-      // 别名
-      // alias: {
-      //     loader1: path.resolve(__dirname, 'loader', 'loader1')
-      // }
+        // 别名
+        // alias: {
+        //     loader1: path.resolve(__dirname, 'loader', 'loader1')
+        // }
         modules: ['node_modules', path.resolve(__dirname, 'loader')]  // 先找node_modules, 再去loader中去找
     },
     devtool: 'source-map',
@@ -90,7 +90,10 @@ module.exports = {
                         limit: 200 * 1024
                     }
                 }
-
+            },
+            {
+                test: /\.less$/,
+                use: ['style-loader2', 'css-loader2', 'less-loader2']
             }
         ]
     },

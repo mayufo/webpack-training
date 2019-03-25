@@ -2,7 +2,7 @@
 let babel = require('@babel/core')
 
 // 拿到babel的参数 需要工具 loaderUtils
-let loaderUtils =require('loader-utils')
+let loaderUtils = require('loader-utils')
 
 
 function loader(source) {  // loader的参数就是源代码  这里的this就是loader的上下文

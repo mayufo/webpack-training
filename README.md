@@ -311,12 +311,14 @@ module.exports = {
 
 
 ## es 7的语法
+
 ```
 // class
 npm i @babel/plugin-proposal-class-properties -D
 // 装饰器
 npm i @babel/plugin-proposal-decorators -D
 ```
+
 配置如上
 
 ## 全局变量引入
@@ -339,13 +341,13 @@ new webpack.ProvidePlugin({
 
 1. 暴露全局
 
-`npm i expose-loader -D` 暴露全局的loader
+`npm i expose-loader -D` 暴露全局的`loader`
 
 可以在js中 `import $ from 'expose-loader?$!jquery'`   // 全局暴露jquery为$符号
 
-可以调用window.$
+可以调用`window.$`
 
-也可在webpack.config.js 中配置 rules
+也可在`webpack.config.js` 中配置 `rules`
 
 ```
 {
@@ -354,7 +356,7 @@ new webpack.ProvidePlugin({
 }
 ```
 
-以后在.js文件中引入
+以后在`.js`文件中引入
 
 ```
 import $ from 'jquery'
@@ -371,7 +373,7 @@ new webpack.ProvidePlugin({
 })
 ```
 
-3. 在index.html中通过script标签引入jquery, 但是在js中，用import会重新打包jquery,如何避免
+3. 在`index.html`中通过`script`标签引入`jquery`, 但是在`js`中，用`import`会重新打包`jquery`,如何避免
 
 从输出的bundle 中排除依赖
 
@@ -437,7 +439,7 @@ div {
    }
 ```
 
-第三种情况: 解析html中的image
+第三种情况: 解析`html`中的`image`
 
 `yarn add html-withimg-loader -D`
 
@@ -452,7 +454,7 @@ div {
 
 `yarn add url-loader -D`
 
-如果过大，才用file-loader
+如果过大，才用`file-loader`
 
 ```
 {
@@ -497,7 +499,7 @@ plugins: [
 ]
 ```
 
-## 希望输出的时候，给这些css\img加上前缀，传到服务器也能访问
+## 希望输出的时候，给这些`css\img`加上前缀，传到服务器也能访问
 
 ```
 output: {
@@ -558,7 +560,7 @@ module.exports = {
 
 ```
 
-## 配置source-map
+## 配置`source-map`
 
 `yarn add @babel/core  @babel/preset-env babel-loader  webpack-dev-server -D`
 
@@ -570,7 +572,7 @@ module.exports = {
 4. 不会产生文件 集成在打包后的文件中 不会产生列 「cheap-module-eval-source-map」
 
 
-## watch 改完代表重新打包实体
+## `watch` 改完代表重新打包实体
 
 ```
 watch: true,
@@ -582,9 +584,9 @@ watchOptions: {
 ```
 
 
-## webpack的其他三个小插件
+## `webpack`的其他三个小插件
 
-1. cleanWebpackPlugin
+1. `cleanWebpackPlugin`
 
 每次打包之前删掉dist目录
 `yarn add clean-webpack-plugin -D`
@@ -601,7 +603,8 @@ plugins: [
 ]
 ```
 
-2. copyWebpackPlugin
+2. `copyWebpackPlugin`
+
 一些静态资源也希望拷贝的dist中
 
 `yarn add copy-webpack-plugin -D`
@@ -618,7 +621,7 @@ const config = {
 }
 ```
 
-3. bannerPlugin  内置模块
+3. `bannerPlugin`内置模块
 
 版权声明
 
@@ -631,7 +634,7 @@ new webpack.BannerPlugin({ banner: 'hello world'})
 
 ```
 
-## webpack 跨域
+## `webpack` 跨域
 
 设置一个服务,由于`webpack-dev-server`内含`express`
 
@@ -653,7 +656,7 @@ app.get('/api/user', (res) => {
 app.listen(3000)   // 服务端口在3000
 ```
 
-写完后记得node server.js
+写完后记得`node server.js`
 
 访问 `http://localhost:3000/api/user` 可见内容
 
@@ -718,6 +721,7 @@ devServer: {
 ```
 
 ## 前端只想单纯mock数据 「跨域」
+
 ```
 devServer: {
     // proxy: {
@@ -775,7 +779,7 @@ app.listen(3000)
 
 ## webpack解析resolve
 
-以bootstrap为例
+以`bootstrap`为例
 
 ```
 npm install bootstrap  -D
@@ -802,7 +806,7 @@ You may need an appropriate loader to handle this file type.
 
 ```
 
-这是因为bootstrap 4.0的css引入了新的特性，CSS Variables
+这是因为`bootstrap` 4.0的css引入了新的特性，CSS Variables
 
 安装
 `npm install postcss-custom-properties --save-dev`
@@ -824,6 +828,7 @@ You may need an appropriate loader to handle this file type.
 ```
 
 ## 但是每次引入都很长，如何优雅引入
+
 ```
 resolve: {
     // 在当前目录查找
@@ -1078,7 +1083,7 @@ rules: [
 ## 优化：忽略依赖中不必要的语言包
 `yarn add moment webpack-dev-server -D`
 
-忽略掉moment的其他语言包
+忽略掉`moment`的其他语言包
 
 ```
 let webpack = require('webpack')
@@ -1142,7 +1147,7 @@ render(<h1>111111</h1>, window.root)
 <div id="root"></div>
 ```
 
-独立的将react react-dom 打包好, 打包好再引用，从而减少webpack每次都要打包react 
+独立的将`react react-dom` 打包好, 打包好再引用，从而减少`webpack`每次都要打包`react`
 
 创建`webpack.config.react.js`
 
@@ -3484,7 +3489,7 @@ module.exports = loader
 1. 修改`banner.js`的内容后, `webpack`进行监控，打包`webapck.config.js`配置`watch: true`
 2. `loader`缓存
 
-## 实现file-loader和url-loader
+## 实现`file-loader`和`url-loader`
 
 `yarn add mime`
 
@@ -3548,3 +3553,167 @@ module.exports = loader
 }
 ```
 
+`index.js`引入图片
+
+```
+import p from './photo.png'
+
+let img = document.createElement('img')
+img.src = p
+document.body.appendChild(img);
+
+```
+
+
+## `less-loader`和`css-loader`
+
+
+先安装`less`
+
+分别创建`style-loader2` `css-loader2` `less-loader2`
+
+`style-loader1` 与 `less-loader1` 同之前的
+
+
+## `css-loader`
+
+主要用来处理`css`中的图片链接，需要把`url`转换成`require`
+
+
+`webpack.config.js`
+
+```
+{
+    test: /\.png$/,
+    // 目的是根据图片生成md5 发射到dist目录下，file-loader 返回当前图片路径
+    // use: 'file-loader'
+    // 处理路径
+    use: {
+        loader: 'url-loader1',
+        options: {
+            limit: 200 * 1024
+        }
+    }
+},
+{
+    test: /\.less$/,
+    use: ['style-loader2', 'css-loader2', 'less-loader2']
+}
+```
+
+创建`index.less`
+
+```
+@base: #f938ab;
+body {
+  background: @base;
+  background: url("./photo.png");
+}
+```
+
+`less-loader2.js`
+
+```
+// 将less转为css
+let less = require('less')
+
+function loader(source) {
+    let css = ''
+    // console.log(source, 2222);
+    less.render(source, function (err, output) {
+        // console.log(output);
+        css = output.css
+    })
+    // css = css.replace(/\n/g, '\\n');
+    return css
+}
+
+module.exports = loader
+```
+
+
+`css-loader2.js`
+
+```
+// css-loader 用来解析@import这种语法,包括css中引入的图片
+function loader(source) {
+    let reg = /url\((.+?)\)/g   // 匹配括号
+
+    let pos = 0;
+    let current;
+
+    let arr = ['let list = []']
+
+    while (current = reg.exec(source)) {
+        let [matchUrl, g] = current   // matchUrl -> 'url("./photo.png")', g  -> '"./photo.png"'
+        // console.log(matchUrl, g, 88);
+        let lastIndex = reg.lastIndex - matchUrl.length    // 拿到css从开通到地址链接之前的index
+        arr.push(`list.push(${JSON.stringify(source.slice(pos, lastIndex))})`)  // 拼入开始和地址之前的代码
+        pos = reg.lastIndex
+        arr.push(`list.push('url('+ require(${g}) +')')`)    // 拼入图片地址
+    }
+    arr.push(`list.push(${JSON.stringify(source.slice(pos))})`)  // 拼入地址到结尾的代码
+    arr.push(`module.exports = list.join('')`)
+    console.log(arr.join('\r\n'));
+    // let list = []
+    // list.push("body {\\n  background: #f938ab;\\n  background: ")
+    // list.push('url('+ require("./photo.png") +')')
+    // list.push(";\\n}\\n")
+    // module.exports = list.join('')
+
+    return arr.join('\r\n')
+}
+module.exports = loader
+
+```
+
+`style-loader2.js`
+
+```
+let loaderUtils = require('loader-utils')
+
+// 将css插入到html头部
+function loader(source) {
+    let str = `
+    let style = document.createElement('style')
+    style.innerHTML = ${JSON.stringify(source)}
+    document.head.appendChild(style)
+   `
+    return str
+}
+
+
+// style-loader写了pitch,有返回后面的跳过，自己的写不会走
+loader.pitch = function (remainingRequest) {  // 剩余的请求
+    console.log(loaderUtils.stringifyRequest(this, '!!' + remainingRequest, 99999999))
+    // 让style-loader 处理 less-loader 和css-loader拼接的结果
+    // 得到 /Users/liuhuimin/work/webpack/loader/css-loader2.js!/Users/liuhuimin/work/webpack/loader/less-loader2.js!/Users/liuhuimin/work/webpack/src/index.less
+    // 剩余的请求 less-loader!css-loader!./index.less
+    // console.log(remainingRequest, 1223);
+    // require返回的就是css-loader处理好的结果require('!!css-loader!less-loader!./index.less')
+    let str = `
+    let style = document.createElement('style')
+    style.innerHTML = require(${loaderUtils.stringifyRequest(this, '!!' + remainingRequest)})
+    document.head.appendChild(style)
+   `
+    // stringifyRequest 绝对路径转相对路径
+    return str
+}
+module.exports = loader
+
+```
+
+
+```
+user: ['style-loader2', 'css-loader2', 'less-loader2']
+
+    pitch loader - 有返回值
+    
+pitch   style-loader2 → css-loader2  less-loader2  
+                     ↙               
+               有返回值               资源
+               ↙                      
+normal  style-loader2  css-loader2  less-loader2
+```
+
+在`style-loader2`中 引用了`less-loader` `css-loader` 和`less`文件

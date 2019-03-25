@@ -43,9 +43,11 @@
 // console.log(may.getName());
 
 
-import p from './photo.png'
+// import p from './photo.png'
+//
+// let img = document.createElement('img')
+// img.src = p
+// document.body.appendChild(img);
 
-let img = document.createElement('img')
-img.src = p
-document.body.appendChild(img);
 
+import './index.less'
