@@ -28,16 +28,24 @@
 // inline
 
 
-class May {
-    constructor () {
-        this.name = 'may'
-    }
-    getName () {
-        return this.name
-    }
-}
+// class May {
+//     constructor () {
+//         this.name = 'may'
+//     }
+//     getName () {
+//         return this.name
+//     }
+// }
+//
+//
+// let may = new May()
+//
+// console.log(may.getName());
 
 
-let may = new May()
+import p from './photo.png'
 
-console.log(may.getName());
+let img = document.createElement('img')
+img.src = p
+document.body.appendChild(img);
+

@@ -2792,13 +2792,13 @@ let ejs = require('ejs')
 
 ## 增加loader
 
-创建`loader`文件夹，创建`less-loader.js`和`style-loader.js`
+创建`loader`文件夹，创建`less-loader1.js`和`style-loader1.js`
 
 `yarn add less`
 
 [less使用](http://lesscss.cn/#using-less)
 
-`less-loader`
+`less-loader1.js`
 
 ```
 // 将less转为css
@@ -2817,7 +2817,7 @@ module.exports = loader
 
 ```
 
-`style-loader`
+`style-loader1.js`
 
 ```
 // 将css插入到html头部
@@ -2854,8 +2854,8 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    path.resolve(__dirname, 'loader', 'style-loader'),
-                    path.resolve(__dirname, 'loader', 'less-loader')
+                    path.resolve(__dirname, 'loader', 'style-loader1'),
+                    path.resolve(__dirname, 'loader', 'less-loader1')
                 ]
             }
         ]
@@ -3483,3 +3483,68 @@ module.exports = loader
 
 1. 修改`banner.js`的内容后, `webpack`进行监控，打包`webapck.config.js`配置`watch: true`
 2. `loader`缓存
+
+## 实现file-loader和url-loader
+
+`yarn add mime`
+
+其主要用途是设置某种扩展名的文件的响应程序类型
+
+[mime](https://github.com/broofa/node-mime#readme)
+
+创建`file-loader.js1`
+
+```
+// 拿到babel的参数 需要工具 loaderUtils
+let loaderUtils = require('loader-utils')
+
+function loader(source) {  // loader的参数就是源代码
+    // file-loader需要返回路径
+    let filename = loaderUtils.interpolateName(this, '[hash].[ext]', {content: source })
+    this.emitFile(filename, source) // 发射文件
+    console.log('loader1');
+    return `module.exports="${filename}"`
+}
+loader.raw = true // 二进制
+module.exports = loader
+
+```
+
+创建`url-loader1.js`
+
+```
+// 拿到babel的参数 需要工具 loaderUtils
+let loaderUtils = require('loader-utils')
+let mime = require('mime')  // 途是设置某种扩展名的文件的响应程序类型
+
+function loader(source) {  // loader的参数就是源代码
+    let {limit} = loaderUtils.getOptions(this)
+    console.log(this.resourcePath);
+    if (limit && limit > source.length) {
+        return `module.exports="data:${mime.getType(this.resourcePath)};base64,${source.toString('base64')}"`
+    } else {
+        return require('./file-loader1').call(this, source)
+    }
+}
+loader.raw = true // 二进制
+module.exports = loader
+
+```
+
+`webpack.config.js`
+
+```
+{
+    test: /\.png$/,
+    // 目的是根据图片生成md5 发射到dist目录下，file-loader 返回当前图片路径
+    // use: 'file-loader'
+    // 处理路径
+    use: {
+        loader: 'url-loader1',
+        options: {
+            limit: 200 * 1024
+        }
+    }
+}
+```
+

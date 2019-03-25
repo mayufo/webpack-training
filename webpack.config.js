@@ -54,8 +54,8 @@ module.exports = {
             // {
             //     test: /\.less$/,
             //     use: [
-            //         path.resolve(__dirname, 'loader', 'style-loader'),
-            //         path.resolve(__dirname, 'loader', 'less-loader')
+            //         path.resolve(__dirname, 'loader', 'style-loader1'),
+            //         path.resolve(__dirname, 'loader', 'less-loader1')
             //     ]
             // },
             // {
@@ -69,15 +69,28 @@ module.exports = {
             //         }
             //     }
             // },
-            {    // 给所有匹配的`js`加一个注释
-                test: /\.js$/,
+            // {    // 给所有匹配的`js`加一个注释
+            //     test: /\.js$/,
+            //     use: {
+            //         loader: 'banner-loader',
+            //         options: {
+            //            text: 'may',
+            //            filename: path.resolve(__dirname, 'src/banner.js')
+            //         }
+            //     }
+            // },
+            {
+                test: /\.png$/,
+                // 目的是根据图片生成md5 发射到dist目录下，file-loader 返回当前图片路径
+                // use: 'file-loader'
+                // 处理路径
                 use: {
-                    loader: 'banner-loader',
+                    loader: 'url-loader1',
                     options: {
-                       text: 'may',
-                       filename: path.resolve(__dirname, 'src/banner.js')
+                        limit: 200 * 1024
                     }
                 }
+
             }
         ]
     },

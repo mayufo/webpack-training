@@ -44,6 +44,7 @@
     "happypack": "^5.0.1",
     "loader-utils": "^1.2.3",
     "markdown-toc": "^1.2.0",
+    "mime": "^2.4.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "schema-utils": "^1.0.0",
