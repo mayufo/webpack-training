@@ -45,4 +45,11 @@
   + 生成打包结果
   + 增加loader
   + 增加plugins
-    
+- src11    
+  + loader
+  + loader配置
+  + babel-loader实现
+  + banner-loader实现
+  + 实现file-loader和url-loader
+  + less-loader和css-loader
+  + css-loader

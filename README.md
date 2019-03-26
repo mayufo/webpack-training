@@ -3717,3 +3717,150 @@ normal  style-loader2  css-loader2  less-loader2
 ```
 
 在`style-loader2`中 引用了`less-loader` `css-loader` 和`less`文件
+
+
+## webpack 中的插件
+
+`yarn add webpack webpack-cil -D`
+
+`webpack.config.js`
+
+```
+let path = require('path')
+let DonePlugin = require('./plugins/DonePlugins')
+let AsyncPlugins = require('./plugins/AsyncPlugins')
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'build.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    plugins: [
+        new DonePlugin(),    // 同步
+        new AsyncPlugins()   // 异步
+    ]
+}
+
+```
+
+`node_modules/webpack/lib`中查看`Compiler.js`
+
+1. 同步`plugins/DonePlugins`
+
+打包完成
+
+```
+class DonePlugins {
+    apply (compiler) {
+        console.log(1);
+        compiler.hooks.done.tap('DonePlugin', (stats) => {
+            console.log('编译完成');
+        })
+    }
+}
+
+
+module.exports = DonePlugins
+
+```
+
+
+2. 异步`plugins/AsyncPlugins`
+
+```
+class AsyncPlugins {
+    apply (compiler) {
+        console.log(2);
+        compiler.hooks.emit.tapAsync('AsyncPlugin', (complete, callback) => {
+            setTimeout(() => {
+                console.log('文件发射出来');
+                callback()
+            }, 1000)
+        })
+        compiler.hooks.emit.tapPromise('AsyncPlugin', (complete, callback) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('文件发射出来 222');
+                    resolve()
+                }, 1000)
+            })
+        })
+    }
+}
+
+
+module.exports = AsyncPlugins
+
+```
+
+## 文件列表插件
+
+希望生成一个文件描述打包出来的文件
+
+在`plugins`中新建`FileListPlugin`
+
+```
+class FileListPlugin {
+    constructor ({filename}) {
+        this.filename = filename
+    }
+    apply (compiler) {
+        // 文件已经准备好了 要进行发射
+        // emit
+        compiler.hooks.emit.tap('FileListPlugin', (compilation) => {
+            let assets = compilation.assets;
+            console.log(assets, 55);
+            let content = `## 文件名  资源大小\r\n`
+            // [ [bundls.js, {}], [index.html, {}]]
+            Object.entries(assets).forEach(([filename, stateObj]) => {
+                content += `- ${filename}    ${stateObj.size()}\r\n`
+            })
+            // 资源对象
+            assets[this.filename] = {
+                source () {
+                    return content;
+                },
+                size () {
+                    return content.length
+                }
+            }
+        })
+    }
+}
+
+module.exports = FileListPlugin
+
+```
+
+```
+let path = require('path')
+let DonePlugin = require('./plugins/DonePlugins')
+let AsyncPlugins = require('./plugins/AsyncPlugins')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+let FileListPlugin = require('./plugins/FileListPlugin')
+
+module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+        filename: 'build.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    plugins: [
+        new DonePlugin(),
+        new AsyncPlugins(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+        new FileListPlugin({
+            filename: 'list.md'
+        })
+    ]
+}
+
+```
+
+生成`list.md`
