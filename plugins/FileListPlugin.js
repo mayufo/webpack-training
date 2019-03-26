@@ -7,7 +7,7 @@ class FileListPlugin {
         // emit
         compiler.hooks.emit.tap('FileListPlugin', (compilation) => {
             let assets = compilation.assets;
-            console.log(assets, 55);
+            // console.log(assets, 55);
             let content = `## 文件名  资源大小\r\n`
             // [ [bundls.js, {}], [index.html, {}]]
             Object.entries(assets).forEach(([filename, stateObj]) => {

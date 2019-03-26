@@ -51,3 +51,8 @@
 
 
 // import './index.less'
+
+
+alert(111111)
+
+import './index.css'

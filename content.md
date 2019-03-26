@@ -53,3 +53,7 @@
   + 实现file-loader和url-loader
   + less-loader和css-loader
   + css-loader
+- src
+  + webpack中的插件
+  + 文件列表插件  
+  + 打包后自动发布    

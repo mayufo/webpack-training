@@ -5,8 +5,6 @@
 
 [文件对应的目录](https://github.com/mayufo/webpack-training/blob/master/content.md)
 
-
-
 - [安装前先npm初始化](#%E5%AE%89%E8%A3%85%E5%89%8D%E5%85%88npm%E5%88%9D%E5%A7%8B%E5%8C%96)
 - [本地服务](#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1)
 - [复制html](#%E5%A4%8D%E5%88%B6html)
@@ -21,25 +19,25 @@
 - [webpack图片打包](#webpack%E5%9B%BE%E7%89%87%E6%89%93%E5%8C%85)
 - [当图片小于多少，用base64](#%E5%BD%93%E5%9B%BE%E7%89%87%E5%B0%8F%E4%BA%8E%E5%A4%9A%E5%B0%91%E7%94%A8base64)
 - [打包文件分类](#%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E5%88%86%E7%B1%BB)
-- [希望输出的时候，给这些css\img加上前缀，传到服务器也能访问](#%E5%B8%8C%E6%9C%9B%E8%BE%93%E5%87%BA%E7%9A%84%E6%97%B6%E5%80%99%E7%BB%99%E8%BF%99%4%B8%8A%E5%89%8D%E7%BC%80%E4%BC%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%83%BD%E8%AE%BF%E9%97%AE)
+- [希望输出的时候，给这些`css\img`加上前缀，传到服务器也能访问](#%E5%B8%8C%E6%9C%9B%E8%BE%93%E5%87%BA%E7%9A%84%E6%97%B6%E5%80%99%E7%Bimg%E5%8A%A0%E4%B8%8A%E5%89%8D%E7%BC%80%E4%BC%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%83%BD%E8%AE%BF%E9%97%AE)
 - [如果只希望处理图片](#%E5%A6%82%E6%9E%9C%E5%8F%AA%E5%B8%8C%E6%9C%9B%E5%A4%84%E7%90%86%E5%9B%BE%E7%89%87)
 - [打包多页应用](#%E6%89%93%E5%8C%85%E5%A4%9A%E9%A1%B5%E5%BA%94%E7%94%A8)
-- [配置source-map](#%E9%85%8D%E7%BD%AEsource-map)
-- [watch 改完代表重新打包实体](#watch-%E6%94%B9%E5%AE%8C%E4%BB%A3%E8%A1%A8%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E5%AE%9E%E4%BD%93)
-- [webpack的其他三个小插件](#webpack%E7%9A%84%E5%85%B6%E4%BB%96%E4%B8%89%E4%B8%AA%E5%B0%8F%E6%8F%92%E4%BB%B6)
-- [webpack 跨域](#webpack-%E8%B7%A8%E5%9F%9F)
+- [配置`source-map`](#%E9%85%8D%E7%BD%AEsource-map)
+- [`watch` 改完代表重新打包实体](#watch-%E6%94%B9%E5%AE%8C%E4%BB%A3%E8%A1%A8%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E5%AE%9E%E4%BD%93)
+- [`webpack`的其他三个小插件](#webpack%E7%9A%84%E5%85%B6%E4%BB%96%E4%B8%89%E4%B8%AA%E5%B0%8F%E6%8F%92%E4%BB%B6)
+- [`webpack` 跨域](#webpack-%E8%B7%A8%E5%9F%9F)
 - [如果后端给的请求没有API 「跨域」](#%E5%A6%82%E6%9E%9C%E5%90%8E%E7%AB%AF%E7%BB%99%E7%9A%84%E8%AF%B7%E6%B1%82%E6%B2%A1%E6%9C%89api-%E8%B7%A8%E5%9F%9F)
 - [前端只想单纯mock数据 「跨域」](#%E5%89%8D%E7%AB%AF%E5%8F%AA%E6%83%B3%E5%8D%95%E7%BA%AFmock%E6%95%B0%E6%8D%AE-%E8%B7%A8%E5%9F%9F)
-- [有服务端，不用代理, 服务端启动webpack 「跨域」](#%E6%9C%89%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%B8%8D%E7%94%A8%E4%BB%A3%E7%90%86-%E6%9C%8D%E5%8A%A1%E5%8A%A8webpack-%E8%B7%A8%E5%9F%9F)
+- [有服务端，不用代理, 服务端启动webpack 「跨域」](#%E6%9C%89%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%B8%8D%E7%94%A8%E4%BB%A3%E7%90%86-%E6%9C%8F%E5%90%AF%E5%8A%A8webpack-%E8%B7%A8%E5%9F%9F)
 - [webpack解析resolve](#webpack%E8%A7%A3%E6%9E%90resolve)
-- [但是每次引入都很长，如何优雅引入](#%E4%BD%86%E6%98%AF%E6%AF%8F%E6%AC%A1%E5%BC%95%E5%85%A5%E9%83%BD%E5%BE%88%E9%95%BF%E5%A6%82%E4%BD%95%E4%BC%9%95%E5%85%A5)
+- [但是每次引入都很长，如何优雅引入](#%E4%BD%86%E6%98%AF%E6%AF%8F%E6%AC%A1%E5%BC%95%E5%85%A5%E9%83%BD%E5%BE%88%E9%95%BF%E5%A6%82%E4%B%9B%85%E5%BC%95%E5%85%A5)
 - [省略扩展名](#%E7%9C%81%E7%95%A5%E6%89%A9%E5%B1%95%E5%90%8D)
 - [定义环境变量](#%E5%AE%9A%E4%B9%89%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
 - [区分两个不同的环境](#%E5%8C%BA%E5%88%86%E4%B8%A4%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84%E7%8E%AF%E5%A2%83)
 - [webpack 优化](#webpack-%E4%BC%98%E5%8C%96)
 - [优化：当某些包是独立的个体没有依赖](#%E4%BC%98%E5%8C%96%E5%BD%93%E6%9F%90%E4%BA%9B%E5%8C%85%E6%98%AF%E7%8B%AC%E7%AB%8B%E7%9A%84%E4%B8%AA%E4%BD%93%E6%B2%A1%E6%9C%89%E4%BE%9D%E8%B5%96)
 - [优化：规则匹配设置范围](#%E4%BC%98%E5%8C%96%E8%A7%84%E5%88%99%E5%8C%B9%E9%85%8D%E8%AE%BE%E7%BD%AE%E8%8C%83%E5%9B%B4)
-- [优化：忽略依赖中不必要的语言包](#%E4%BC%98%E5%8C%96%E5%BF%BD%E7%95%A5%E4%BE%9D%E8%B5%96%E4%B8%AD%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E8%AF%AD%85)
+- [优化：忽略依赖中不必要的语言包](#%E4%BC%98%E5%8C%96%E5%BF%BD%E7%95%A5%E4%BE%9D%E8%B5%96%E4%B8%AD%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%A8%80%E5%8C%85)
 - [动态链接库](#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93)
 - [多线程打包happypack](#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%89%93%E5%8C%85happypack)
 - [webpack 自带的优化](#webpack-%E8%87%AA%E5%B8%A6%E7%9A%84%E4%BC%98%E5%8C%96)
@@ -53,7 +51,26 @@
 - [`AsyncParallelHook` 与 `AsyncParallelBailHook`](#asyncparallelhook-%E4%B8%8E-asyncparallelbailhook)
     + [AsyncParallelHook](#asyncparallelhook)
     + [AsyncParallelBailHook](#asyncparallelbailhook)
-- [异步串行](#%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C)
+- [异步串行 —— AsyncSeriesHook](#%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C--asyncserieshook)
+- [异步串行 —— AsyncSeriesWaterfallHook](#%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C--asyncserieswaterfallhook)
+- [手写webpack](#%E6%89%8B%E5%86%99webpack)
+- [webpack分析及处理](#webpack%E5%88%86%E6%9E%90%E5%8F%8A%E5%A4%84%E7%90%86)
+- [创建依赖关系](#%E5%88%9B%E5%BB%BA%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB)
+- [ast递归解析](#ast%E9%80%92%E5%BD%92%E8%A7%A3%E6%9E%90)
+- [生成打包工具](#%E7%94%9F%E6%88%90%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7)
+- [增加loader](#%E5%A2%9E%E5%8A%A0loader)
+- [增加plugins](#%E5%A2%9E%E5%8A%A0plugins)
+- [loader](#loader)
+- [配置多个loader](#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAloader)
+- [`babel-loader`实现](#babel-loader%E5%AE%9E%E7%8E%B0)
+- [`banner-loader`实现(自创)](#banner-loader%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%88%9B)
+- [实现`file-loader`和`url-loader`](#%E5%AE%9E%E7%8E%B0file-loader%E5%92%8Curl-loader)
+- [`less-loader`和`css-loader`](#less-loader%E5%92%8Ccss-loader)
+- [`css-loader`](#css-loader)
+- [webpack 中的插件](#webpack-%E4%B8%AD%E7%9A%84%E6%8F%92%E4%BB%B6)
+- [文件列表插件](#%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8%E6%8F%92%E4%BB%B6)
+- [内联的`webpack`插件](#%E5%86%85%E8%81%94%E7%9A%84webpack%E6%8F%92%E4%BB%B6)
+- [打包后自动发布](#%E6%89%93%E5%8C%85%E5%90%8E%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83)
 
 ## 安装前先npm初始化
 ```
@@ -3864,3 +3881,246 @@ module.exports = {
 ```
 
 生成`list.md`
+
+
+## 内联的`webpack`插件
+
+新建`index.css`引入`index.js`
+
+`yarn add css-loader mini-css-extract-plugin -D`
+
+希望打包后`css、js`内联在`index.html`文件中
+
+创建`plugins`中`InlineSourcePlugins.js`
+
+`yarn add --dev html-webpack-plugin@next`
+
+[HTML Webpack Plugin](https://github.com/jantimon/html-webpack-plugin)
+
+`webpack.config.js`
+
+```
+let path = require('path')
+let DonePlugin = require('./plugins/DonePlugins')
+let AsyncPlugins = require('./plugins/AsyncPlugins')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+let FileListPlugin = require('./plugins/FileListPlugin')
+
+let InlineSourcePlugins = require('./plugins/InlineSourcePlugins')
+
+let MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+module.exports = {
+    mode: 'production',
+    entry: './src/index.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
+            }
+        ]
+    },
+    plugins: [
+        // new DonePlugin(),
+        // new AsyncPlugins(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'index.css'
+        }),
+        new InlineSourcePlugins({
+            match: /\.(js|css)/
+        }),
+        // new FileListPlugin({
+        //     filename: 'list.md'
+        // })
+    ]
+}
+
+```
+
+`InlineSourcePlugins.js`
+
+```
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+// 把外链的标签编程内联的标签
+class InlineSourcePlugins {
+    constructor({match}) {
+        this.reg = match  // 正则
+    }
+
+    // 处理某一个标签
+    processTag(tag, compilation) {
+        let newTag = {}
+        let url = ''
+        if (tag.tagName === 'link' && this.reg.test(tag.attributes.href)) {
+            newTag = {
+                tagName: 'style',
+                attributes: {type: 'text/css'}
+            }
+            url = tag.attributes.href
+        } else if (tag.tagName === 'script' && this.reg.test(tag.attributes.src)) {
+            newTag = {
+                tagName: 'script',
+                attributes: {type: 'application/javascript'}
+            }
+            url = tag.attributes.src
+        }
+        if (url) {
+            newTag.innerHTML = compilation.assets[url].source(); // 文件内容放到innerHTML属性中
+            delete compilation.assets[url]   // 删除原有的资源
+            return newTag
+            // console.log(compilation.assets[url].source());
+        }
+        return tag
+    }
+
+    // 处理引入标签的数据
+    processTags(data, compilation) {
+        let headTags = []
+        let bodyTags = []
+        data.headTags.forEach(headTag => {
+            headTags.push(this.processTag(headTag, compilation))
+        })
+        data.bodyTags.forEach(bodyTag => {
+            bodyTags.push(this.processTag(bodyTag, compilation))
+        })
+        console.log({...data, headTags, bodyTags})
+        return {...data, headTags, bodyTags}
+    }
+
+
+
+    apply(compiler) {
+        // 通过webpackPlugin来实现  npm搜索  html-webpack-plugin
+        compiler.hooks.compilation.tap('InlineSourcePlugins', (compilation) => {
+            HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
+                'alertPlugin',
+                (data, callback) => {
+                    // console.log('======');
+                    // console.log(data) // 插入html标签的数据
+                    // console.log('======');
+                    data = this.processTags(data, compilation)   // compilation.assets 资源的链接
+                    callback(null, data)
+                })
+        })
+
+    }
+}
+
+module.exports = InlineSourcePlugins
+
+```
+
+
+## 打包后自动发布
+
+打包好的文件自动上传致七牛
+
+需要这几个参数
+
+```
+bucket: ''  // 七牛的存储空间
+domain: '',
+accessKey: '', // 七牛云的两对密匙
+secretKey: '' // 七牛云的两对密匙
+```
+
+注册七牛，并在对象存储里面,新建存储空间列表`test`,`bucket: 'test'`
+
+内容管理外链接默认域名 `domain: 'xxxxxxxx'`
+
+右上角个人面板里面个人中心,密钥管理分别对应`accessKey`和`secretKey`
+
+[进入开发者中心](https://developer.qiniu.com/) -> SDK&工具 -> 官方SDK -> Node服务端文档 —> 文件上传
+
+
+[node文件上传](https://developer.qiniu.com/kodo/sdk/1289/nodejs)
+
+
+
+`npm install qiniu`
+
+[compiler-hooks](https://webpack.docschina.org/api/compiler-hooks)
+
+
+`webpack.config.js`
+
+```
+plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'index.css'
+        }),
+        new UploadPlugin({
+            bucket: 'test',  // 七牛的存储空间
+            domain: 'poyrjyh1b.bkt.clouddn.com',
+            accessKey: 'xxxxxx', // 七牛云的两对密匙
+            secretKey: 'yyyyyy' // 七牛云的两对密匙
+        })
+    ]
+```
+
+`UploadPlugin.js`
+
+```
+let qiniu = require('qiniu')
+let path = require('path')
+
+class UploadPlugin {
+    constructor (options = {}) {
+        // 参考 https://developer.qiniu.com/kodo/sdk/1289/nodejs
+        let { bucket = '', domain = '', accessKey = '', secretKey = ''} = options
+        let mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+        let putPolicy = new qiniu.rs.PutPolicy({
+            scope: bucket
+        });
+        this.uploadToken = putPolicy.uploadToken(mac)
+        let config = new qiniu.conf.Config();
+        this.formUploader = new qiniu.form_up.FormUploader(config)
+        this.putExtra = new qiniu.form_up.PutExtra()
+    }
+    apply (compiler) {
+        compiler.hooks.afterEmit.tapPromise('UploadPlugin', (complication) => {
+            let assets = complication.assets
+            let promise = []
+            Object.keys(assets).forEach(filename => {
+                promise.push(this.upload(filename))
+            })
+            return Promise.all(promise)
+        })
+    }
+
+    upload (filename) {
+        return new Promise((resolve, reject) => {
+            let localFile = path.resolve(__dirname, '../dist', filename)
+            this.formUploader.putFile(this.uploadToken, filename, localFile, this.putExtra, function(respErr,
+                                                                                 respBody, respInfo) {
+                if (respErr) {
+                    reject(respErr)
+                }
+                if (respInfo.statusCode == 200) {
+                    resolve(respBody)
+                } else {
+                    console.log(respInfo.statusCode)
+                    console.log(respBody)
+                }
+            });
+        })
+    }
+}
+
+module.exports = UploadPlugin
+
+```
