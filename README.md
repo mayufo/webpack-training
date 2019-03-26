@@ -5,6 +5,8 @@
 
 [文件对应的目录](https://github.com/mayufo/webpack-training/blob/master/content.md)
 
+[may-pack](https://github.com/mayufo/may-pack)
+
 - [安装前先npm初始化](#%E5%AE%89%E8%A3%85%E5%89%8D%E5%85%88npm%E5%88%9D%E5%A7%8B%E5%8C%96)
 - [本地服务](#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1)
 - [复制html](#%E5%A4%8D%E5%88%B6html)
