@@ -7,6 +7,8 @@
 
 [may-pack](https://github.com/mayufo/may-pack)
 
+[如果你觉得这篇文字太长点击进入gitbook](https://mayufo.gitbooks.io/webpack/content/)
+
 - [安装前先npm初始化](#%E5%AE%89%E8%A3%85%E5%89%8D%E5%85%88npm%E5%88%9D%E5%A7%8B%E5%8C%96)
 - [本地服务](#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1)
 - [复制html](#%E5%A4%8D%E5%88%B6html)
@@ -75,6 +77,7 @@
 - [打包后自动发布](#%E6%89%93%E5%8C%85%E5%90%8E%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83)
 
 ## 安装前先npm初始化
+
 ```
 npm init -y
 npm i webpack webpack-cli -D
@@ -329,7 +332,7 @@ module.exports = {
 ```
 
 
-## es 7的语法
+## es7的语法
 
 ```
 // class
@@ -907,15 +910,15 @@ new webpack.DefinePlugin({
 
 分别配置不同的环境
 
-webpack.base4.js   基础配置
-webpack.dev4.js    开发环境
-webpack.prod4.js   生产环境
+- `webpack.base4.js`   基础配置
+- `webpack.dev4.js`    开发环境
+- `webpack.prod4.js`   生产环境
 
 `yarn add webpack-merge -D`
 
 
-npx run build -- config webpack.dev4.js
-npx run build -- config webpack.build.js
+`npx run build -- config webpack.dev4.js`
+`npx run build -- config webpack.build.js`
 
 [官方文档](https://webpack.docschina.org/guides/production/)
 
@@ -1081,7 +1084,7 @@ module: {
 
 ## 优化：规则匹配设置范围
 
-```a
+```
 rules: [
   {
       test: /\.js$/,
@@ -1231,7 +1234,7 @@ plugins: [
 
 可以理解为先把react打包，后面每次都直接使用react打包后的结果
 
-## 多线程打包happypack
+## 多线程打包`happypack`
 
 `yarn add happypack`
 
