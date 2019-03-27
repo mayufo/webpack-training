@@ -7,7 +7,7 @@
 
 [may-pack](https://github.com/mayufo/may-pack)
 
-[如果你觉得这篇文字太长点击进入gitbook](https://mayufo.gitbooks.io/webpack/content/)
+[>>如果你觉得这篇文字太长点击进入gitbook<<](https://mayufo.gitbooks.io/webpack/content/)
 
 - [安装前先npm初始化](#%E5%AE%89%E8%A3%85%E5%89%8D%E5%85%88npm%E5%88%9D%E5%A7%8B%E5%8C%96)
 - [本地服务](#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1)
