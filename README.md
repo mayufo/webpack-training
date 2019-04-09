@@ -167,6 +167,7 @@ module: {    // 模块
 }
 ```
 
+
 ## 处理less
 
 `npm i less-loader`
@@ -192,6 +193,8 @@ module: {    // 模块
     ]
 }
 ```
+
+[less-loader](https://webpack.js.org/loaders/less-loader/#src/components/Sidebar/Sidbar.jsx)
 
 ## 抽离css文件，通过link引入
 
@@ -1102,6 +1105,8 @@ rules: [
   }
 ```
 
+尽量实用`include`,不使用`exclude`,使用绝对路径
+
 ## 优化：忽略依赖中不必要的语言包
 `yarn add moment webpack-dev-server -D`
 
@@ -1284,7 +1289,6 @@ css启用多线程
     use: ['style-loader', 'css-loader']
 }),
 ```
-
 
 ## webpack 自带的优化
 
